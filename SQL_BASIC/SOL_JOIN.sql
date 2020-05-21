@@ -82,16 +82,24 @@ select e.ename,d.dname
 from emp e inner join dept d
 on e.deptno=d.deptno
 ;
--- using절 조건문 : 공통 컬럼이므로 using 사용  
+-- using절 조건문 
 select ename,dname
 from emp inner join dept
 using(deptno)
 ;
 
---natual join
+--natual join : 동등조인에서 같은 속성 중복 제거 
 select *
 from emp natural join dept
 ;
+--동등조인
+select *
+from emp, dept
+where emp.deptno=dept.deptno
+;
+
+select *
+from emp, dept;
 
 select ename,dname
 from emp natural join dept
@@ -102,6 +110,28 @@ select *
 from emp e left outer join emp m
 on e.mgr=m.empno
 ;
+
+
+select *
+from emp e right outer join emp m
+on e.mgr=m.empno
+;
+select *
+from emp e full outer join emp m
+on e.mgr=m.empno
+;
+
+select *
+from emp e right outer join dept
+on e.deptno=dept.deptno
+;
+
+select *
+from emp e left outer join dept
+on e.deptno=dept.deptno
+;
+
+
 
 
 
