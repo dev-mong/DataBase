@@ -207,3 +207,22 @@ insert into emp06 values(NULL,'test123','MANAGER',20);
 insert into emp06 values(2222,'test123','MANAGER',20);
 select * from emp06;
 
+--예제 )) 사원번호, 사원명, 직급, 부서번호, 직급, 성별 7개의 칼럼으로 구성된
+--테이블을 생성하되 기본 키 제약 조건, 외래키 제약 조건은 물로 CHECK
+--제약 조건도 설정
+create table emp07(
+	empno number(4) constraint emp07_empno_pk primary key,
+	ename varchar(10) constraint emp07_ename_nn not null,
+	job varchar(10) default 'MANAGER',
+	deptno number(2) constraint emp07_deptno_fk references dept(deptno),
+    gender char(1) constraint emp07_gender_ck check(gender='M' or gender='F'),
+    sal number(7,2) constraint emp07_sal_ck check(sal between 500 and 5000),
+    birthday date default sysdate
+);
+desc emp07;
+insert into emp07 values(2222,'test123','MANAGER',20,'M',550,'98-01-18');
+insert into emp07 values(1111,'test123',NULL,20,'F',600,NULL);
+
+insert into emp07 (empno, ename, deptno, gender, sal) values (1113,'test',10, 'F',1600); --default값이 삽입된다 
+SELECT * FROM EMP07;
+
