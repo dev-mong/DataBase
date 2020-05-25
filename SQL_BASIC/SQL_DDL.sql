@@ -175,3 +175,16 @@ insert into emp04 values(1111,'test123','MANAGER',20); --unique 제약 조건 �
 insert into emp04 values(NULL,'test123','MANAGER',20); 
 
 
+--예제)) 사원 테이블과 유사한 구조의 사원번호, 사원명,
+--직급, 부서번호 4개의 칼럼으로 구성된 테이블을 생성하되 기본 키 제약 조건
+drop table emp05;
+create table emp05(
+	empno number(4) constraint emp05_empno_pk primary key,
+	ename varchar(10) constraint emp05_ename_nn not null,
+	job varchar(10),
+	deptno number(2)
+);
+desc emp05;
+
+
+
