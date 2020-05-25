@@ -4,17 +4,46 @@ select count(*)
 from book
 where bookid in (select bookid from orders where custid=1);
 
+--풀이))
+select count(distinct b.publisher)
+from customer c, orders o, book b
+where c.custid=o.custid and o.bookid=b.bookid and c.name='박지성';
+
+select * from orders o, customer c where o.custid=c.custid and c.name='박지성';
+
+select count(distinct publisher)
+from book
+where bookid in(select distinct o.bookid from orders o, customer c where o.custid=c.custid and c.name='박지성')
+;
+
 -- (6) 박지성이 구매한 도서의 이름, 가격, 정가와 판매 가격의 차이
 select b.bookname, abs(b.price-o.saleprice)
 from book b, orders o 
 where b.bookid=o.bookid and o.custid=1
 ;
 
+--풀이))
+select b.bookname, b.price, abs(b.price-saleprice) as priceGap
+from customer c, orders o, book b
+where c.custid=o.custid and o.bookid=b.bookid and c.name='박지성';
+
+select b.bookname, b.price, abs(b.price-o.saleprice) as priceGap
+from orders o, book b
+where o.bookid=b.bookid and o.custid=(select custid from customer where name='박지성');
+
 
 -- (7) 박지성이 구매하지 않은 도서의 이름
 select distinct b.bookname
 from orders o, book b
 where not(custid in (select custid from orders where custid=1))
+and o.bookid=b.bookid
+order by b.bookname desc
+;
+
+--풀이)) ??????
+select  b.bookname
+from orders o, book b
+where b.bookid not in (select bookid from orders o, customer c where name='박지성' and o.custid=c.custid)
 and o.bookid=b.bookid
 order by b.bookname desc
 ;
@@ -26,6 +55,9 @@ select name
 from customer
 where not(custid in(select custid from orders))
 ;
+
+--풀이))
+
 
 --(9) 주문금액의총액과주문의평균금액
 select sum(saleprice) as total, trunc(avg(saleprice)) as avg
