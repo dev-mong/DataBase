@@ -185,6 +185,14 @@ create table emp05(
 	deptno number(2)
 );
 desc emp05;
+insert into emp05 values(1111,'test','MANAGER',10);
+insert into emp05 values(1111,'test123','MANAGER',20); --unique 제약 조건 위배 
+insert into emp05 values(NULL,'test123','MANAGER',20); 
+SELECT * FROM EMP05;
+
+--사원번호, 사원명, 직급 ,부서번호 4개의 컬럼으로 구성된
+--테이블을 생성하되 사원번호에 기본 키 제약 조건을 설정
+-- DEPTNO  외래키로 제약조건을 설정 
 
 
 
