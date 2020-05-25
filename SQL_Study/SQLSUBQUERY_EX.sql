@@ -28,6 +28,12 @@ group by job
 having  avg(sal) = (select min(avg(sal)) from emp group by job)  
 ;
 
+select job, avg(sal)
+from emp
+group by job
+having avg(sal)<=all(select avg(sal) from emp group by job)
+;
+
 
 --47. 각 부서의 최소 급여를 받는 사원의 이름, 급여, 부서번호를 표시하시오.
 select min(sal) from emp group by deptno;
