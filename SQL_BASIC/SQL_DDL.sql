@@ -43,6 +43,7 @@ select * from emp;
 
 select * from emp02;
 
+--원하는 컬럼만 선택적으로 복사 가능 
 --emp 테이블의 empno와 ename 컬럼만 복사해서 새로운 테이블 emp03을 생성
 create table emp03 
 as
@@ -52,13 +53,13 @@ select * from emp03;
 --테이블의 테이터 복사
 create table emp04
 as
-select * from emp where deptno=10;
+select * from emp where deptno=10; --일부 행만 복사
 select * from emp04;
 
 -- 테이블의 구조만 가져옴
 create table emp05
 as
-select * from emp where 1=0;
+select * from emp where 1<0;
 select * from emp05;
 
 
@@ -97,6 +98,9 @@ rename emp02 to test_emp;
 select * from tab;
 select * from test_emp;
 
+---------------------
+--제약조건
+---------------------
 
 --제약 조건 : 기본키
 desc dept;
@@ -134,6 +138,7 @@ insert into emp02 values(1111, null,'MANAGER', 10);
 insert into emp02 values(1111, 'SON','MANAGER', 10);
 SELECT * FROM EMP02;
 
+--UNIQUE (중복 조건)
 drop table emp03;
 create table emp03(
     empno number(4) unique,
@@ -143,8 +148,9 @@ create table emp03(
 );
 desc emp03;
 insert into emp03 values(1111,'test','MANAGER',10);
-insert into emp03 values(1111,'test123','MANAGER',20); --unique 제약 조건 위배 
+insert into emp03 values(1111,'test123','MANAGER',20); --unique 제약 조건 위배 ,empno 중복
 insert into emp03 values(NULL,'test123','MANAGER',20); 
+
 
 drop table emp03;
 create table emp03(
@@ -158,6 +164,7 @@ insert into emp03 values(1111,'test123','MANAGER',20); --unique 제약 조건 �
 insert into emp03 values(NULL,'test123','MANAGER',20); 
 
 
+--제약 조건명 명시해서 제약 조건 설정 : CONSTRAINT
 --예제)) 사원 테이블과 유사한 구조의 사원번호, 사원명,직급, 부서번호 
 --4개의 칼럼으로 구성된 EMP04 테이블을 생성하되
 --사원번호에는 유일키로 사원명은 NOT NULL 제약조건
@@ -173,7 +180,7 @@ insert into emp04 values(1111,'test','MANAGER',10);
 insert into emp04 values(1111,'test123','MANAGER',20); --unique 제약 조건 위배 
 insert into emp04 values(NULL,'test123','MANAGER',20); 
 
-
+--PRIMARY KEY 제약 조건 
 --예제)) 사원 테이블과 유사한 구조의 사원번호, 사원명,
 --직급, 부서번호 4개의 칼럼으로 구성된 테이블을 생성하되 기본 키 제약 조건
 drop table emp05;
@@ -189,6 +196,7 @@ insert into emp05 values(1111,'test123','MANAGER',20); --unique 제약 조건 �
 insert into emp05 values(NULL,'test123','MANAGER',20); 
 SELECT * FROM EMP05;
 
+--FOREIGN KEY
 --예제)) 사원번호, 사원명, 직급 ,부서번호 4개의 컬럼으로 구성된
 --테이블을 생성하되 사원번호에 기본 키 제약 조건을 설정
 -- DEPTNO  외래키로 제약조건을 설정 
@@ -204,11 +212,13 @@ insert into emp06 values(1111,'test','MANAGER',10);
 insert into emp06 values(1111,'test123','MANAGER',20); --unique 제약 조건 위배 
 insert into emp06 values(NULL,'test123','MANAGER',20);
 insert into emp06 values(2222,'test123','MANAGER',20);
+insert into emp06 values(2222,'test123','MANAGER',50); -- 불가능 
 select * from emp06;
 
+
 --예제 )) 사원번호, 사원명, 직급, 부서번호, 직급, 성별 7개의 칼럼으로 구성된
---테이블을 생성하되 기본 키 제약 조건, 외래키 제약 조건은 물로 CHECK
---제약 조건도 설정
+--테이블을 생성하되 기본 키 제약 조건, 외래키 제약 조건은 물론 CHECK 제약 조건도 설정
+-- DEFAULT 제약 조건으로 BIRTHDAY  SYSDATE로 입력되도록 처리
 create table emp07(
 	empno number(4) constraint emp07_empno_pk primary key,
 	ename varchar(10) constraint emp07_ename_nn not null,
