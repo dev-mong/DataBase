@@ -169,6 +169,9 @@ create table emp04(
     job varchar2(10),
     deptno number(2)
 );
-
+desc emp04;
+insert into emp04 values(1111,'test','MANAGER',10);
+insert into emp04 values(1111,'test123','MANAGER',20); --unique 제약 조건 위배 
+insert into emp04 values(NULL,'test123','MANAGER',20); 
 
 
