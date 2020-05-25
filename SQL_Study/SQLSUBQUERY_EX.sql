@@ -5,11 +5,10 @@ where job=(select job from emp where empno=7788)
 ;
 
 
-
 --44. 사원번호가 7499인 사원보다 급여가 많은 사원을 표시하시오. 사원이름과 감당 업무
 select ename, job
 from emp
-where sal>(select sal from emp where empno=7499)
+where sal> (select sal from emp where empno=7499)
 ;
 
 
@@ -34,13 +33,29 @@ group by job
 having avg(sal)<=all(select avg(sal) from emp group by job)
 ;
 
+--)) 부서별 평균의 최소 평균 값
+select job, avg(sal)
+from emp
+group by job
+having avg(sal)=all(select avg(sal)
+from (select job,avg(sal)
+from emp
+group by job))
+;
+
 
 --47. 각 부서의 최소 급여를 받는 사원의 이름, 급여, 부서번호를 표시하시오.
 select min(sal) from emp group by deptno;
 
 select ename, sal, deptno
-from emp
+from emp 
 where sal in (select min(sal) from emp group by deptno)
+;
+
+--풀이))
+select e1.ename, e1.sal, e1.deptno
+from emp e1
+where sal in (select min(sal) from emp e2  where e2.deptno=e1.deptno group by deptno)
 ;
 
 --48. 담당업무가 ANALYST 인 사원보다 급여가 적으면서
@@ -53,6 +68,12 @@ from emp
 where sal < any(select sal from emp where job = 'ANALYST')
 ;
 
+--풀이))
+select ename, sal,job 
+from emp
+where sal < all(select distinct sal from emp where job = 'ANALYST' )
+;
+
 
 --49. 부하직원이 없는 사원의 이름을 표시하시오.
 select ename
@@ -60,11 +81,26 @@ from emp
 where not ename in(select m.ename from emp e, emp m where e.mgr=m.empno)
 ;
 
+--풀이))
+select distinct empno from emp where mgr is not null;
+
+select ename, mgr
+from emp
+where empno not in (select distinct mgr from emp where mgr is not null);
+
+
+
+
 --50. 부하직원이 있는 사원의 이름을 표시하시오.
 select ename
 from emp
 where ename in(select m.ename from emp e, emp m where e.mgr=m.empno)
 ;
+
+-- 풀이))
+select ename, mgr
+from emp
+where empno in (select distinct mgr from emp where mgr is not null);
 
 
 --51. BLAKE와 동일한 부서에 속한 사원의 이름과 입사일을 표시하는 질의를 작성하시오. ( 단 BLAKE는 제외 )
@@ -89,9 +125,9 @@ where deptno in (select deptno from emp where ename like '%K%')
 ;
 
 --54. 부서위치가 DALLAS인 사원의 이름과 부서번호 및 담당업무를 표시하시오.
-select ename, e.deptno, e.job, d.loc
-from emp e, dept d
-where e.deptno in (select d.deptno from dept where d.loc='DALLAS')
+select ename, e.deptno, e.job
+from emp e
+where e.deptno in (select deptno from dept where loc='DALLAS')
 ;
 
 
@@ -101,10 +137,18 @@ from emp e
 where e.mgr=(select empno from emp where ename='KING')
 ;
 
+
 --56. RESEARCH 부서의 사원에 대한 부서번호, 사원이름 및 담당 업무를 표시하시오.
 select deptno, ename, job
 from emp 
 where deptno=(select deptno from dept where dname='RESEARCH')
+;
+
+--풀이 ))
+select e.deptno, ename, job
+from emp e,dept d
+where e.deptno=d.deptno
+and d.dname='RESEARCH'
 ;
 
 --57. 평균 월급보다 많은 급여를 받고 이름에 M이 포함된 사원과 같은 부서에서 근무하는 사원의 사원 번호, 이름, 급여를 표시하시오.
@@ -122,6 +166,12 @@ select job, avg(sal)
 from emp
 group by job
 having avg(sal) = (select min(avg(sal)) from emp group by job)
+;
+
+select job, avg(sal)
+from emp
+group by job
+having avg(sal) <= all (select avg(sal) from emp group by job)
 ;
 
 
