@@ -62,7 +62,6 @@ select * from emp where 1=0;
 select * from emp05;
 
 
-
 --테이블에 컬럼 추가
 --alter table 테이블명 add (컬럼 정의)
 desc emp01;
