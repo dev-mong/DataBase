@@ -216,7 +216,7 @@ insert into emp06 values(2222,'test123','MANAGER',50); -- 불가능
 insert into emp06 values(2222,'test123','MANAGER',null); -- 불가능 
 select * from emp06;
 select * from emp06, dept where emp06.deptno=dept.deptno;
-insert into 
+
 
 --CHECK , DEFAULT 제약 조건 
 --예제 )) 사원번호, 사원명, 직급, 부서번호, 직급, 성별 7개의 칼럼으로 구성된
