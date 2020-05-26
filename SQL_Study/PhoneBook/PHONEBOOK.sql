@@ -21,13 +21,13 @@ create table phoneInfo_univ(
     idx number(6) constraint univ_idx_pk primary key,
     fr_u_major varchar2(20) default 'N'  constraint fr_u_major_pk not null ,
     fr_u_year number(1) not null,
-    fr_ref number(7),
+    fr_ref number(6),
     constraint f_u_year_check check (fr_u_year between 1 and 4),
     constraint fr_ref_fk foreign key (fr_ref) references phoneInfo_basic(p_idx)
 );
 
 
---부서이름, 직금
+--부서이름, 직급
 create table phoneInfo_com(
     idx number(6),
     fr_c_company varchar2(20) default 'N' constraint fr_c_company_mm not null,
@@ -35,19 +35,6 @@ create table phoneInfo_com(
     constraint com_idx_pk primary key(idx),
     constraint fr_ref foreign key (fr_ref) references phoneInfo_basic(p_idx)
 );
-
-
-
---모임이름, 닉네임
-create table phoneInfo_club(
-    club_idx number(6) constraint club_idx_pk primary key,
-    club_clubname varchar2(10) constraint club_clubname_mm not null,
-    club_nname varchar2(10) constraint club_nname_mm not null,
-    club_fk number(6) constraint club_fk references phoneInfo_basic(p_idx)
-);
-desc phoneInfo_club;
-select * from phoneInfo_club;
-
 
 
 select * from tab;
