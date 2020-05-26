@@ -196,7 +196,7 @@ insert into emp05 values(1111,'test123','MANAGER',20); --unique 제약 조건 �
 insert into emp05 values(NULL,'test123','MANAGER',20); 
 SELECT * FROM EMP05;
 
---FOREIGN KEY
+--FOREIGN KEY 제약조건 
 --예제)) 사원번호, 사원명, 직급 ,부서번호 4개의 컬럼으로 구성된
 --테이블을 생성하되 사원번호에 기본 키 제약 조건을 설정
 -- DEPTNO  외래키로 제약조건을 설정 
@@ -213,16 +213,19 @@ insert into emp06 values(1111,'test123','MANAGER',20); --unique 제약 조건 �
 insert into emp06 values(NULL,'test123','MANAGER',20);
 insert into emp06 values(2222,'test123','MANAGER',20);
 insert into emp06 values(2222,'test123','MANAGER',50); -- 불가능 
+insert into emp06 values(2222,'test123','MANAGER',null); -- 불가능 
 select * from emp06;
+select * from emp06, dept where emp06.deptno=dept.deptno;
+insert into 
 
-
+--CHECK , DEFAULT 제약 조건 
 --예제 )) 사원번호, 사원명, 직급, 부서번호, 직급, 성별 7개의 칼럼으로 구성된
 --테이블을 생성하되 기본 키 제약 조건, 외래키 제약 조건은 물론 CHECK 제약 조건도 설정
 -- DEFAULT 제약 조건으로 BIRTHDAY  SYSDATE로 입력되도록 처리
 create table emp07(
 	empno number(4) constraint emp07_empno_pk primary key,
-	ename varchar(10) constraint emp07_ename_nn not null,
-	job varchar(10) default 'MANAGER',
+	ename varchar2(10) constraint emp07_ename_nn not null,
+	job varchar2(10) default 'MANAGER',
 	deptno number(2) constraint emp07_deptno_fk references dept(deptno),
     gender char(1) constraint emp07_gender_ck check(gender='M' or gender='F'),
     sal number(7,2) constraint emp07_sal_ck check(sal between 500 and 5000),
@@ -234,4 +237,21 @@ insert into emp07 values(1111,'test123',NULL,20,'F',600,NULL);
 
 insert into emp07 (empno, ename, deptno, gender, sal) values (1113,'test',10, 'F',1600); --default값이 삽입된다 
 SELECT * FROM EMP07;
+
+
+
+
+-- 테이블 레벨에서의 제약 조건 정의
+
+drop table emp02;
+create table emp02(
+    empno number(4),
+    ename varchar2(10) constraint emp02_ename_nn not null,
+    job varchar2(10) not null, 
+    deptno number(2),
+    constraint emp02_empno_pk primary key(empno),
+    constraint emp02_ename_uk unique(ename),
+    constraint emp02_deptno_fk foreign key(deptno) REFERENCES dept(deptno)
+);
+
 
