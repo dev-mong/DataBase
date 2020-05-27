@@ -186,9 +186,3 @@ select * from pb_view_com;
 DROP VIEW pb_view_com;
 
 
-
-SELECT * FROM TAB;
-
-COMMIT;
-
-
