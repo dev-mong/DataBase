@@ -186,3 +186,35 @@ select * from pb_view_com;
 DROP VIEW pb_view_com;
 
 
+
+
+-------------------------------------
+--sequenct 생성
+-------------------------------------
+--1. basic 테이블 seq
+create sequence pb_basic_idx_seq
+start with 0
+minvalue 0 --default 값이 1이므로 0으로 변경
+;
+
+--2  com 테이블 seq
+create sequence pb_com_idx_seq
+start with 0
+minvalue 0
+;
+
+--3. univ 테이블 seq
+create sequence pb_univ_idx_seq
+start with 0
+minvalue 0
+;
+
+
+
+-- 정보 추가
+insert into phoneInfo_basic (p_idx, fr_name, fr_phonenumber,fr_address,fr_email) values(pb_basic_idx_seq.nextval,'박지성','010-1234-4578','서울','park@');
+select * from phoneInfo_univ;
+insert into phoneInfo_univ (idx,fr_u_major, fr_u_year,fr_ref) values(pb_univ_idx_seq.nextval,'축구','2',pb_basic_idx_seq.currval);
+select * from phoneInfo_com;
+insert into phoneInfo_com (idx,fr_c_company,fr_ref) values(p_com_idx_seq.nextval,'bit',pb_basic_idx_seq.currval);
+
