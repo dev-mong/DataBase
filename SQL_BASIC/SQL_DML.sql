@@ -169,7 +169,6 @@ where sal>=3000
 select * from emp01;
 
 --예제 3)) 1987년에 입사한 사원의 입사일이 오늘로 수정
-
 -- => 87년 입사한 사람 출력하는 방법 1
 select * from emp 
 where hiredate between '1987/01/01' and '1987/12/31';
