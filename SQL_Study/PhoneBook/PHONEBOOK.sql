@@ -115,18 +115,3 @@ select * from phoneInfo_basic b, phoneInfo_univ u, phoneInfo_com c where b.p_idx
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
