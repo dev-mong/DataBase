@@ -259,32 +259,3 @@ delete from emp01 where deptno = (
 );
 select * from emp01;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
