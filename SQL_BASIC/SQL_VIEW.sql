@@ -30,9 +30,25 @@ select rownum, empno, ename, hiredate from emp_hir_view where rownum<=5;
 select rownum, empno, ename, hiredate from emp order by hiredate;  
 
 
+----------------------------------------------
+--SEQUENCE : 번호 자동 생성
+-----------------------------------------------
+--CREATE sequence 시퀀스 이름
+--start with 시작값 0 시작
+--increment by  증가값 1
+--maxvalue 최대값
+--minvalue 최소값
+--cycle | nocylce 반복 여부 
+--cache n | nocache
 
+--부서번호 deptno의 sequence 생성
+create sequence dept_deptno_seq01; --default 값으로 생성
 
+select dept_deptno_seq01.nextval
+from dual;
 
+select dept_deptno_seq01.currval
+from dual;
 
 
 
