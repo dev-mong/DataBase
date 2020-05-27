@@ -5,6 +5,13 @@
 --대리키 : 일련번호 -> p_idx
 
 --기본 정보 테이블 생성 
+
+drop table phoneInfo_univ;
+drop table phoneInfo_com;
+drop table phoneInfo_basic;
+
+
+
 create table phoneInfo_basic(
     p_idx number(6) constraint p_idx_pk primary key,
     fr_name varchar2(10) constraint fr_name_mm not null,
@@ -55,11 +62,16 @@ insert into phoneInfo_univ (idx, fr_u_year, fr_ref) values(2,'3',4);
 select * from phoneInfo_univ u, phoneInfo_basic b where u.fr_ref=b.p_idx; 
 select * from phoneInfo_univ u, phoneInfo_basic b where u.fr_ref=b.p_idx and b.p_idx=3;  
 
+
+
 --회사 친구 정보 입력
 insert into phoneInfo_com values(1,'bit',3);
 insert into phoneInfo_com values(2,'APPLE',5);
-select * from phoneInfo_com c, phoneInfo_basic b where c.fr_ref=b.p_idx;
 --회사 친구 정보 출력
+select * from phoneInfo_com;
+select * from phoneInfo_com c, phoneInfo_basic b where c.fr_ref=b.p_idx;
+
+
 
 --전체 리스트 출력
 select * from phoneInfo_basic b, phoneInfo_univ u, phoneInfo_com c where b.p_idx=c.fr_ref(+) and b.p_idx=u.fr_ref(+) order by p_idx;
@@ -107,24 +119,76 @@ select fr_ref from phoneInfo_univ where fr_ref=2);
 select * from phoneInfo_basic;
 update phoneInfo_basic set fr_name='조현우' where fr_name='차두리';
 
+
+
+
 -- 대학친구 정보와 기본정보를 삭제
-delete from phoneInfo_basic where p_idx=2;
+delete from phoneInfo_basic where p_idx=5;
 
 
-select * from phoneInfo_basic b, phoneInfo_univ u, phoneInfo_com c where b.p_idx=c.fr_ref(+) and b.p_idx=u.fr_ref(+) order by p_idx;
+-----------------------------------------------
+--VIEW
+-----------------------------------------------
+
+--전체 정보 출력하기 : pb_view_all
+select * from phoneInfo_basic b, phoneInfo_univ u, phoneInfo_com c 
+where b.p_idx=c.fr_ref(+) and b.p_idx=u.fr_ref(+) order by p_idx;
+
+--create view pb_view_all
+--as 
+--select 
+--    b.p_idx, b.fr_name, b.fr_phonenumber, b.fr_address, b.fr_email, b.fr_regdate,
+--    u.fr_u_major,u.fr_u_year,
+--    c.fr_c_company
+--from phoneInfo_basic b, phoneInfo_univ u, phoneInfo_com c 
+--where b.p_idx=c.fr_ref(+) and b.p_idx=u.fr_ref(+);
+
+create or replace view pb_view_all
+(idx,name,phonenumber,address,email,regdate,major,year,company) -- 별칭 
+as 
+select 
+    b.p_idx, b.fr_name, b.fr_phonenumber, b.fr_address, b.fr_email, b.fr_regdate,
+    u.fr_u_major,u.fr_u_year,
+    c.fr_c_company
+from phoneInfo_basic b, phoneInfo_univ u, phoneInfo_com c 
+where b.p_idx=c.fr_ref(+) and b.p_idx=u.fr_ref(+) order by p_idx;
+
+
+select * from pb_view_all;
+
+DROP VIEW pb_view_all;
+
+--학교 친구 view : pb_view_univ
+select * from phoneInfo_basic b, phoneInfo_univ u
+where b.idx=u.fr_ref;
+
+create view pb_view_univ
+as
+select * from phoneInfo_basic b, phoneInfo_univ u
+where b.p_idx=u.fr_ref;
+
+select * from pb_view_univ;
+
+DROP VIEW pb_view_univ;
+
+--회사 친구 view : pb_view_com
+select * from phoneInfo_basic b, phoneInfo_com c
+where b.p_idx=c.fr_ref
+;
+
+create view pb_view_com
+as
+select * from phoneInfo_basic b, phoneInfo_com c
+where b.p_idx=c.fr_ref;
+select * from pb_view_com;
+
+DROP VIEW pb_view_com;
 
 
 
+SELECT * FROM TAB;
 
-
-
-
-
-
-
-
-
-
+COMMIT;
 
 
 
