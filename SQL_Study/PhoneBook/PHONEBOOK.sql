@@ -158,6 +158,7 @@ select * from pb_view_all;
 
 DROP VIEW pb_view_all;
 
+
 --학교 친구 view : pb_view_univ
 select * from phoneInfo_basic b, phoneInfo_univ u
 where b.idx=u.fr_ref;
@@ -189,8 +190,5 @@ DROP VIEW pb_view_com;
 SELECT * FROM TAB;
 
 COMMIT;
-
-
-
 
 
