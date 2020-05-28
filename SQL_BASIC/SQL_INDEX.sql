@@ -18,14 +18,18 @@ create table emp01
 as
 select  * from emp;
 
+
 insert into emp01 select * from emp01;
+
 select count(*) from emp01;
 
 insert into emp01 (empno, ename) values(1111,'SON');
 insert into emp01 (empno, ename) values(2222,'PARK');
-
-select * from emp01 where ename='PARK';
 select * from emp01 where ename='SON';
+select * from emp01 where ename='PARK';
+
+select * from emp where empno=1111;
+
 
 -- INDEX 생성
 -- create index 인덱스이름 on 테이블이름 (컬럼이름)
