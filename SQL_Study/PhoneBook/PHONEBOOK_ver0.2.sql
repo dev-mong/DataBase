@@ -85,18 +85,3 @@ insert into phoneInfo_univ (idx,fr_u_major, fr_u_year,fr_ref) values(pb_univ_idx
 select * from phoneInfo_com;
 insert into phoneInfo_com (idx,fr_c_company,fr_ref) values(pb_com_idx_seq.nextval,'bit',pb_basic_idx_seq.currval);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
