@@ -31,5 +31,7 @@ desc phonebook;
 alter table phonebook add(test varchar2(10));
 alter table phonebook modify(test varchar2(20));
 alter table phonebook drop(test);
-
+rename phonebook to phonebooktest;
+rename phonebooktest to phonebook;  
+desc phonebook;
 
