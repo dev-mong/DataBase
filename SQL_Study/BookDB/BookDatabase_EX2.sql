@@ -44,7 +44,6 @@ order by b.bookname desc
 select  b.bookname
 from orders o, book b
 where b.bookid not in (select bookid from orders o, customer c where name='박지성' and o.custid=c.custid)
-and o.bookid=b.bookid
 order by b.bookname desc
 ;
 
