@@ -1,9 +1,6 @@
-package main;
+package Manager;
 
 import java.util.Scanner;
-
-import dept.DeptManager;
-import emp.EmpManager;
 
 public class Main {
 

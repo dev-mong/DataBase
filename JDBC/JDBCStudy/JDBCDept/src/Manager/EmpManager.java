@@ -1,4 +1,4 @@
-package emp;
+package Manager;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
