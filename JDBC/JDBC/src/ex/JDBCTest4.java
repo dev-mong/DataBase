@@ -43,6 +43,7 @@ public class JDBCTest4 {
 			String sql="Select * from dept where deptno=?";
 			pstmt=conn.prepareStatement(sql);
 	
+			
 			//변수 데이터 설정
 			pstmt.setInt(1, 10);
 			rs=pstmt.executeQuery();
@@ -63,9 +64,9 @@ public class JDBCTest4 {
 //			pstmt.close();
 //			conn.close();
 			
-		} catch (ClassNotFoundException e) {
+		} catch (ClassNotFoundException e) { //드라이버 로드
 			e.printStackTrace();
-		}catch (SQLException e) {
+		}catch (SQLException e) { //connection
 			e.printStackTrace();
 //			if(rs != null) {
 //			//4. 데이터베이스 연결 종료 
