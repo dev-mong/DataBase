@@ -72,8 +72,8 @@ public class EmpManager {
 			System.out.println("업무를 입력하세요.");
 			String job=sc.nextLine();
 			
-			System.out.println("입사년도를 입력하세요.");
-			System.out.println("연");
+			System.out.println("입사연도를 입력하세요.");
+			System.out.println("연도");
 			String year=sc.nextLine();
 			System.out.println("월");
 			String month=sc.nextLine();
