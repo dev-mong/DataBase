@@ -10,10 +10,11 @@ import java.util.Scanner;
 public class DeptManager {
 
 	
-	Connection conn=null;
-	PreparedStatement pstmt=null;
-	ResultSet rs=null;
 	Scanner sc=new Scanner(System.in);
+	
+	String url="jdbc:oracle:thin:@localhost:1522:orcl";
+	String user="scott";
+	String password="tiger";
 	
 	public  void menu() {
 	
@@ -47,12 +48,12 @@ public class DeptManager {
 	
 	}
 	public void insert() {
+		
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		
 		try {
-			
 			//2. DB 연결
-			String url="jdbc:oracle:thin:@localhost:1522:orcl";
-			String user="scott";
-			String password="tiger";
 			conn=DriverManager.getConnection(url, user, password);
 
 			//3.SQL 처리
@@ -102,12 +103,12 @@ public class DeptManager {
 	} // insert
 	
 	public void update() {
+		
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		
 		try {
-			
 			//2. DB 연결
-			String url="jdbc:oracle:thin:@localhost:1522:orcl";
-			String user="scott";
-			String password="tiger";
 			conn=DriverManager.getConnection(url, user, password);
 
 			//3.SQL 처리
@@ -158,12 +159,12 @@ public class DeptManager {
 	}//update
 	
 	public void delete(){
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		
 		try {
 			
 			//2. DB 연결
-			String url="jdbc:oracle:thin:@localhost:1522:orcl";
-			String user="scott";
-			String password="tiger";
 			conn=DriverManager.getConnection(url, user, password);
 
 			//3.SQL 처리
@@ -210,13 +211,13 @@ public class DeptManager {
 	
 	public void list() {
 		
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		
 		try {
-
-			
 			//2. DB 연결
-			String url="jdbc:oracle:thin:@localhost:1522:orcl";
-			String user="scott";
-			String password="tiger";
 			conn=DriverManager.getConnection(url, user, password);
 
 			//3.SQL 처리
@@ -268,13 +269,14 @@ public class DeptManager {
 	}//list
 	
 	public void select() {
+		
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
 		try {
 
-			
 			//2. DB 연결
-			String url="jdbc:oracle:thin:@localhost:1522:orcl";
-			String user="scott";
-			String password="tiger";
 			conn=DriverManager.getConnection(url, user, password);
 
 			//3.SQL 처리
@@ -302,7 +304,7 @@ public class DeptManager {
 				System.out.print(rs.getString("dname")+"\t");
 				System.out.println(rs.getString("loc"));
 			}else{
-				System.out.println("● 검색된 정보가 없습니다. ●");
+				System.out.println("● 검색된 정보가 없습니다.●");
 			}
 			
 			System.out.println("---------------------------------");

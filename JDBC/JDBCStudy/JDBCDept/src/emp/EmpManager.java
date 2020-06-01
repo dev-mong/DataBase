@@ -10,10 +10,10 @@ import java.util.Scanner;
 public class EmpManager {
 
 	
-	Connection conn=null;
-	PreparedStatement pstmt=null;
-	ResultSet rs=null;
 	Scanner sc=new Scanner(System.in);
+	String url="jdbc:oracle:thin:@localhost:1522:orcl";
+	String user="scott";
+	String password="tiger";
 	
 	public void menu() {
 	
@@ -46,11 +46,13 @@ public class EmpManager {
 	}
 	
 	public void insert() {
+		
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		
 		try {
+			
 			//2. DB 연결
-			String url="jdbc:oracle:thin:@localhost:1522:orcl";
-			String user="scott";
-			String password="tiger";
 			conn=DriverManager.getConnection(url, user, password);
 
 			//3.SQL 처리	
@@ -136,12 +138,13 @@ public class EmpManager {
 	} // insert
 	
 	public void update() {
+		
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		
 			try {
 			
 			//2. DB 연결
-			String url="jdbc:oracle:thin:@localhost:1522:orcl";
-			String user="scott";
-			String password="tiger";
 			conn=DriverManager.getConnection(url, user, password);
 
 			//3.SQL 처리	
@@ -203,12 +206,12 @@ public class EmpManager {
 	
 	public void delete(){
 		
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		
 			try {
 			
 			//2. DB 연결
-			String url="jdbc:oracle:thin:@localhost:1522:orcl";
-			String user="scott";
-			String password="tiger";
 			conn=DriverManager.getConnection(url, user, password);
 
 			//3.SQL 처리	
@@ -255,12 +258,14 @@ public class EmpManager {
 	}//delete
 	
 	public void list() {
+		
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
 		try {
 	
 			//2. DB 연결
-			String url="jdbc:oracle:thin:@localhost:1522:orcl";
-			String user="scott";
-			String password="tiger";
 			conn=DriverManager.getConnection(url, user, password);
 
 			//3.SQL 처리	
@@ -292,7 +297,6 @@ public class EmpManager {
 			
 			System.out.println("----------------------------------------------------------------");			
 		}catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			if(rs != null) {
@@ -322,11 +326,13 @@ public class EmpManager {
 	}//list
 	
 	public void select() {
+		
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
 		try {
 			//2. DB 연결
-			String url="jdbc:oracle:thin:@localhost:1522:orcl";
-			String user="scott";
-			String password="tiger";
 			conn=DriverManager.getConnection(url, user, password);
 
 			//3.SQL 처리
@@ -361,7 +367,7 @@ public class EmpManager {
 				System.out.print(rs.getInt("comm")+"\t");
 				System.out.println(rs.getInt("deptno"));
 			}else {
-				System.out.println("● 검색된 정보가 없습니다. ●");
+				System.out.println("검색하신 정보가없습니다.");
 			}
 			
 			System.out.println("----------------------------------------------------------------");
@@ -371,7 +377,6 @@ public class EmpManager {
 			conn.close();
 			
 		}catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			if(rs != null) {
