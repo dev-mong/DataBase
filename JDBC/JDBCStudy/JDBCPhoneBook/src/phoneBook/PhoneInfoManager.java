@@ -23,6 +23,7 @@ public class PhoneInfoManager {
 		break;
 		case 2:
 		System.out.println("<< 전화번호 검색 >>");
+		pSearch();
 		break;
 		
 		}
@@ -55,6 +56,39 @@ public class PhoneInfoManager {
 		System.out.println("======================================================================");
 	
 	}
+	
+	
+	public void pSearch() {
+		System.out.println("이름을 입력하세요");
+		
+		String name=Main.sc.nextLine();
+		
+		List<PhoneInfoDto> phoneData = dao.searchName(name);
+		
+		System.out.print("IDX    ");
+		System.out.print("이름      ");
+		System.out.print("전화번호   ");
+		System.out.print("주소   ");
+		System.out.print("이메일  ");
+		System.out.println("등록일자  ");
+		System.out.println("======================================================================");
+		if(phoneData !=null && !phoneData.isEmpty()) { //데이터 존재 여부
+			for(int i=0;i<phoneData.size();i++) {
+				System.out.print(phoneData.get(i).getIdx()+"   ");
+				System.out.print(phoneData.get(i).getName()+"   ");
+				System.out.print(phoneData.get(i).getPhoneNumber()+"   ");
+				System.out.print(phoneData.get(i).getAddress()+"    ");
+				System.out.print(phoneData.get(i).getEmail()+"   ");
+				System.out.println(phoneData.get(i).getRegdate().substring(0,10));
+			}
+		}
+		
+		System.out.println("======================================================================");
+	
+		
+		
+	}
+	
 	
 	
 }
