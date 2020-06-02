@@ -7,15 +7,12 @@ create table contact(
     phonenumber number(12) not null,
     address varchar2(20) default '입력없음' not null,
     email varchar2(10) default '입력없음' not null,
-    type varchar2(5) constraint contact_type_check check(type in('univ','com','cafe')),
-    
+    type varchar2(5) constraint contact_type_check check(type in('univ','com','cafe')), 
     major varchar2(10),
     grade number(1),
-    
     comname varchar2(15),
     comdept varchar2(10),
-    comjob varchar2(10),
-    
+    comjob varchar2(10),   
     cafename varchar2(10),
     cafenick varchar2(10)
 );
@@ -32,7 +29,6 @@ update dept set dname='design', loc='SEOUL' where dname='program' and loc='JEJU'
 
 
 4. DEPT 테이블에 위에서 삽입한 데이터를 deptno 컬럼의 값을 기반으로 삭제하는 SQL을 작성하시오.
-select * from dept;
 delete from dept where deptno=50;
 
 5. 사용자가 보유한 테이블 목록을 확인하는 SQL문을 작성하시오.
@@ -50,18 +46,17 @@ select * from user_constraints ;
 create index emp_index on emp(ename);
 
 2. EMP 테이블과 DEPT 테이블을 조인하는 SQL을 기반으로 view 객체를 생성하는 SQL을 작성하시오.
-
 view 의 이름은 emp_view 로 하시오.
 create view emp_view
 as
-select e.empno,e.ename,e.job,e.hiredate,e.mgr,e.sal,e.comm,e.deptno, d.dname,d.loc from emp e, dept d where e.deptno=d.deptno;
+select e.empno,e.ename,e.job,e.hiredate,e.mgr,e.sal,e.comm,e.deptno,d.dname,d.loc from emp e, dept d where e.deptno=d.deptno;
 
 
 3. EMP 테이블에서 모든 사원의 부서번호를 이름이 'SCOTT'인 사원의 부서번호로 변경하는 SQL을 작성하시오.
 update emp set deptno=(select deptno from emp where ename='SCOTT');
 
 
-
+select * from user_objects where object_type='VIEW';
 
 
 
