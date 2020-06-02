@@ -76,12 +76,15 @@ delete from phoneInfo_basic;
 delete from phoneInfo_univ;
 delete from phoneInfo_com;
 
+commit;
 
 insert into phoneInfo_basic (idx, fr_name, fr_phonenumber,fr_address,fr_email) values(pb_basic_idx_seq.nextval,'박지성','010-1234-4578','서울','park@');
+insert into phoneInfo_basic (idx, fr_name, fr_phonenumber,fr_address,fr_email) values(pb_basic_idx_seq.nextval,'손흥민','010-0000-0000','대전','son@');
 select * from phoneInfo_basic;
 
 select * from phoneInfo_univ;
 insert into phoneInfo_univ (idx,fr_u_major, fr_u_year,fr_ref) values(pb_univ_idx_seq.nextval,'축구','2',pb_basic_idx_seq.currval);
+
 select * from phoneInfo_com;
 insert into phoneInfo_com (idx,fr_c_company,fr_ref) values(pb_com_idx_seq.nextval,'bit',pb_basic_idx_seq.currval);
 
