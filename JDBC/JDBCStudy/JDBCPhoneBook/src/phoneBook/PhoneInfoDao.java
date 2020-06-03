@@ -11,32 +11,35 @@ public class PhoneInfoDao {
 
 	
 	//전체 조회
-	public List<PhoneInfoDto> InfoList(){
+	public List<PhoneInfoAllDto> InfoList(){
 		
 		Connection conn=null;
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 
-		List<PhoneInfoDto> PhoneData=new ArrayList<>(); 
+		List<PhoneInfoAllDto> PhoneData=new ArrayList<>(); 
 		
 		try {
 			//DB 연결
 			conn=ConnectionProvider.getConnection();
 			
 			//sql 처리
-			String sql="select * from phoneInfo_basic order by idx";
+			String sql="select * from phoneInfo_all_view order by idx";
 			pstmt=conn.prepareStatement(sql);
 			
 			rs=pstmt.executeQuery();
 			
 			while(rs.next()) {
-				PhoneInfoDto pdto=new PhoneInfoDto(
+				PhoneInfoAllDto pdto=new PhoneInfoAllDto(
 						rs.getInt("idx"),
 						rs.getString("fr_name"),
 						rs.getString("fr_phonenumber"),
 						rs.getString("fr_address"),
 						rs.getString("fr_email"),
-						rs.getString("fr_regdate")
+						rs.getString("fr_regdate"),
+						rs.getString("fr_c_company"),
+						rs.getString("fr_u_major"),
+						rs.getInt("fr_u_year")
 						);
 				PhoneData.add(pdto);
 			}
@@ -125,15 +128,12 @@ public class PhoneInfoDao {
 	}
 	
 	//기본 정보 추가
-	public int insert(String fr_name, String fr_phoneNumber, String fr_email,String fr_address) {
+	public int insert(Connection conn,String fr_name, String fr_phoneNumber, String fr_email,String fr_address) {
 		
-		Connection conn=null;
 		PreparedStatement pstmt=null;
 		int result=0;
 		
 		try {
-			
-			conn=ConnectionProvider.getConnection();
 			
 			//sql
 			String sql="insert into phoneInfo_basic(idx,fr_name,fr_phonenumber,fr_email,fr_address) "
@@ -149,13 +149,6 @@ public class PhoneInfoDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			if(conn != null) {
-				try {
-					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(pstmt != null) {
 				try {
 					pstmt.close();
@@ -221,8 +214,6 @@ public class PhoneInfoDao {
 		
 		return result;
 	}
-	
-
 	
 	
 }
