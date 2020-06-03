@@ -2,15 +2,14 @@ package phoneUniv;
 
 public class PhoneUnivDto {
 	
-	private int idx;
-	private String name;
-	private String phoneNumber;
-	private String email;
-	private String address;
-	private String regdate;
-	private String major;
-	private String year;
-	
+	private int idx; //인덱스
+	private String name; //이름
+	private String phoneNumber; //전화번호
+	private String email; //이메일 
+	private String address; //주소
+	private String regdate; //저장일
+	private String major; //전공
+	private String year; //학년
 	
 	
 	public PhoneUnivDto(int idx, String name, String phoneNumber,  String email,String address, String regdate,
