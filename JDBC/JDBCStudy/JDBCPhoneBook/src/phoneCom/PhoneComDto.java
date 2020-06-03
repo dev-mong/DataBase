@@ -8,9 +8,6 @@ public class PhoneComDto {
 	private String address; //주소
 	private String email; //이메일
 	private String regdate; //생일
-	
-	
-
 	private String company; //회사이름
 
 	
