@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import phoneBook.ConnectionProvider;
+import phoneBookMain.ConnectionProvider;
 
 
 public class PhoneComDao {
