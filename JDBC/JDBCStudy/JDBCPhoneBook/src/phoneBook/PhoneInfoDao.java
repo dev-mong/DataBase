@@ -73,23 +73,19 @@ public class PhoneInfoDao {
 	}
 	
 	//기본정보 검색
-	public List<PhoneInfoDto> searchName(String name){
+	public List<PhoneInfoDto> searchName(String fr_name, Connection conn){
 		
-		Connection conn=null;
+
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 
 		List<PhoneInfoDto> phoneData=new ArrayList<>(); 
 		
 		try {
-			//DB 연결
-			conn=ConnectionProvider.getConnection();
-			
-			//sql 
 			String sql="select * from phoneInfo_basic where fr_name=?";
 			pstmt=conn.prepareStatement(sql);
 			
-			pstmt.setString(1,name);
+			pstmt.setString(1,fr_name);
 			
 			rs=pstmt.executeQuery();
 			
@@ -103,8 +99,6 @@ public class PhoneInfoDao {
 						rs.getString("fr_regdate")
 						);
 				phoneData.add(pdto);
-			}else {
-				System.out.println("저장된 이름이 없습니다. 다시 입력하세요.");
 			}
 			
 			
@@ -112,7 +106,6 @@ public class PhoneInfoDao {
 			e.printStackTrace();
 		} finally {
 			//데이터 베이스 연결 종료
-			
 			if(rs !=null) {
 				try {
 					rs.close();
@@ -126,23 +119,14 @@ public class PhoneInfoDao {
 					e.printStackTrace();
 				}
 			}
-			if(conn !=null) {
-				try {
-					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			
 		}
-		
 		
 		return phoneData;
 	}
 	
 	//기본 정보 추가
-	public int insert(String fr_name, String fr_phoneNumber, String fr_email,
-			String fr_address) {
+	public int insert(String fr_name, String fr_phoneNumber, String fr_email,String fr_address) {
+		
 		Connection conn=null;
 		PreparedStatement pstmt=null;
 		int result=0;
@@ -185,5 +169,31 @@ public class PhoneInfoDao {
 		return result;
 		
 	}
+
+	//기본 정보 삭제
+	public int delete(String fr_name, Connection conn) {
+		
+
+		PreparedStatement pstmt=null;
+		int result=0;
+		
+		try {
+
+			String sql="delete from phoneInfo_basic where fr_name=?";
+			pstmt=conn.prepareStatement(sql);
+			
+			pstmt.setString(1, fr_name);
+			
+			result=pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+
+	
 	
 }
