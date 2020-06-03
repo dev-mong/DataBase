@@ -147,7 +147,6 @@ public class PhoneUnivDao {
 		return result;
 	}
 
-
 	//대학 친구 정보 수정 
 	public int update(Connection conn,int idx, String nMajor, String nYear) {
 
