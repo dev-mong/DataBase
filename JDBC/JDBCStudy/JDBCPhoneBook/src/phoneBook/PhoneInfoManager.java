@@ -5,11 +5,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sun.glass.ui.Menu;
+
+import MenuIf.MenuInterface;
 import phoneCom.PhoneComDao;
 import phoneCom.PhoneComDto;
 import phoneUniv.PhoneUnivDao;
 import phoneUniv.PhoneUnivDto;
 
+//데이터 입출력
 
 public class PhoneInfoManager {
 
@@ -18,39 +22,47 @@ public class PhoneInfoManager {
 	public void pmMenu() {
 		
 		while(true) {
-		System.out.println("\n   \t\tPhoneBook MENU  ");	
-		System.out.println("-----------------------------------------------------------------------------");
-		System.out.println("\t1.전체 조회  2. 전화번호 조회  3.검색   4.전화번호 저장   5.전화번호 수정  6.전화번호 삭제    0.종료");
-		System.out.println("-----------------------------------------------------------------------------");
+		System.out.println("\n   \t\t  PhoneBook MENU  ");	
+		
+		System.out.println("-----------------------------------------------------");
+		System.out.println("\t\t"+MenuInterface.menu1+" 전체 정보 조회 ");
+		System.out.println( "\t\t"+MenuInterface.menu2+" 전화 번호 조회 ");
+		System.out.println( "\t\t"+MenuInterface.menu3+" 전화번호 검색  ");
+		System.out.println( "\t\t"+MenuInterface.menu4+" 전화번호 저장");
+		System.out.println( "\t\t"+MenuInterface.menu5+" 전화번호 수정 ");
+		System.out.println( "\t\t"+MenuInterface.menu6+" 전화번호 삭제 ");
+		System.out.println( "\t\t"+MenuInterface.menu0+" 종료");
+		System.out.println("-----------------------------------------------------");
+		
 		int menu=Main.sc.nextInt();
 		Main.sc.nextLine();
 		
 		switch(menu) {
-		case 1:
-			System.out.println("\t<< 기본 정보 전체 조회 >>");
+		case MenuInterface.menu1:
+			System.out.println("\t\t<< 전체 정보 조회 >>");
 			pAllList();
 			break;
-		case 2:
-			System.out.println("\t<< 친구 정보 조회 >>");
+		case MenuInterface.menu2:
+			System.out.println("\t\t<< 전화 번호 조회 >>");
 			pList();
 			break;
-		case 3:
-			System.out.println("\t<< 전화번호 검색 >>");
+		case MenuInterface.menu3:
+			System.out.println("\t\t<< 전화번호 검색 >>");
 			pSearch();
 			break;
-		case 4:
-			System.out.println("\t<< 전화번호 저장 >>");
+		case MenuInterface.menu4:
+			System.out.println("\t\t<< 전화번호 저장 >>");
 			pInsert();
 			break;
-		case 5:
-			System.out.println("\t<< 전화번호 수정>>");
+		case MenuInterface.menu5:
+			System.out.println("\t\t<< 전화번호 수정>>");
 			pUpdate();
 			break;
-		case 6:
-			System.out.println("\t<< 전화번호 삭제 >>");
+		case MenuInterface.menu6:
+			System.out.println("\t\t<< 전화번호 삭제 >>");
 			pDel();
 			break;
-		case 0:
+		case MenuInterface.menu0:
 			System.out.println("프로그램 종료");
 			System.exit(0);
 			break;
@@ -72,30 +84,29 @@ public class PhoneInfoManager {
 			List<PhoneInfoAllDto> phoneData = dao.InfoList(conn);
 			
 			if(phoneData !=null && !phoneData.isEmpty()) { //데이터 존재 여부
-				System.out.print("IDX"+"     ");
-				System.out.printf("%5s","이름"+"     ");
-				System.out.printf("%5s","전화번호"+"     ");
-				System.out.printf("%5s","이메일"+"     ");
-				System.out.printf("%5s","주소 "+"     ");
-				System.out.printf("%5s","등록일자 "+"     ");
-				System.out.printf("%5s","회사 이름"+"     ");
-				System.out.printf("전공"+"       ");
-				System.out.println("학년");
-				System.out.println("======================================================================");
+				
+				MenuInterface.colPrint();
+				MenuInterface.comCol();
+				MenuInterface.univCol();
+				
+				System.out.println("\n===================================================================================");
 				for(int i=0;i<phoneData.size();i++) {
-					System.out.print(phoneData.get(i).getIdx()+"   ");
-					System.out.printf("%5s",phoneData.get(i).getName()+"   ");
-					System.out.printf("%5s",phoneData.get(i).getPhoneNumber()+"   ");
-					System.out.printf("%5s",phoneData.get(i).getEmail()+"   ");
-					System.out.printf("%5s",phoneData.get(i).getAddress()+"   ");
-					System.out.printf("%5s",phoneData.get(i).getRegdate().substring(0,10)+"   ");
-					System.out.printf("%5s",phoneData.get(i).getComName()+"   ");
-					System.out.printf("%5s",phoneData.get(i).getMajor()+"   ");
-					System.out.println(phoneData.get(i).getYear());
+					System.out.print(phoneData.get(i).getIdx()+"\t");
+					System.out.print(phoneData.get(i).getName()+"\t");
+					System.out.print(phoneData.get(i).getPhoneNumber()+"\t");
+					System.out.print(phoneData.get(i).getEmail()+"\t");
+					System.out.print(phoneData.get(i).getAddress()+"\t");
+					System.out.print(phoneData.get(i).getRegdate().substring(0,10)+"\t");
+					System.out.print(phoneData.get(i).getComName()+"\t");
+					System.out.print(phoneData.get(i).getMajor()+"\t");
+					System.out.println(phoneData.get(i).getYear()+"\t");
 				}
-			}
+
+				   System.out.println("===================================================================================");
 			
-			System.out.println("======================================================================");
+			}else {
+				System.out.println("■  저장 된 친구 정보가 없습니다.  ■");
+			}
 			
 		} catch (SQLException e) {
 		
@@ -120,35 +131,30 @@ public class PhoneInfoManager {
 		try {
 			
 			conn=ConnectionProvider.getConnection();
-			System.out.println("----------------친구 타입을 선택하세요.--------------------");
-			System.out.println("\t 1.회사 친구 정보 ");
-			System.out.println("\t 2.대학 친구 정보");
+			MenuInterface.typePrint();
+
 			int menu=Main.sc.nextInt();
 			Main.sc.nextLine();
 			
 			switch(menu) {
-			case 1:
+			case MenuInterface.menu1:
 				System.out.println("<<   회사 친구 정보 조회     >>");
 				PhoneComDao comDao=new PhoneComDao();
 				List<PhoneComDto> comData=comDao.comList(conn);
-			
+				
 				if(comData!=null && !comData.isEmpty()) {
-					System.out.print("\nIDX"+"\t");
-					System.out.print("이름"+"\t");
-					System.out.print("전화번호"+"\t");
-					System.out.print("이메일"+"\t");
-					System.out.print("주소"+"\t");
-					System.out.print("회사이름"+"\t");
-					System.out.println("등록일자"+"\t");
-					System.out.println("======================================================================");
+					MenuInterface.colPrint();
+					MenuInterface.comCol();
+					
+					System.out.println("\n======================================================================");
 					for(int i=0;i<comData.size();i++) {
 						System.out.print(comData.get(i).getIdx()+"\t");
 						System.out.print(comData.get(i).getName()+"\t");
 						System.out.print(comData.get(i).getPhoneNumber()+"\t");
 						System.out.print(comData.get(i).getEmail()+"\t");
 						System.out.print(comData.get(i).getAddress()+"\t");
-						System.out.print(comData.get(i).getCompany()+"\t");
-						System.out.println(comData.get(i).getRegdate());
+						System.out.print(comData.get(i).getRegdate().substring(0,10)+"\t");
+						System.out.println(comData.get(i).getCompany());
 					}
 				System.out.println("======================================================================");
 				}else {
@@ -157,34 +163,30 @@ public class PhoneInfoManager {
 				
 				break;
 				
-			case 2: 
+			case MenuInterface.menu2: 
 				System.out.println("<<   대학 친구 정보 조회     >>");
 				PhoneUnivDao uDao=new PhoneUnivDao();
 				List<PhoneUnivDto> univData=uDao.uList(conn);
 				
 				if(univData !=null && !univData.isEmpty()) {
-					System.out.print("\nIDX"+"\t");
-					System.out.print("이름"+"\t");
-					System.out.print("전화번호"+"\t\t");
-					System.out.print("이메일"+"\t\t");
-					System.out.print("주소"+"\t");
-					System.out.print("전공"+"\t");
-					System.out.print("학년"+"\t");
-					System.out.println("등록일자"+"\t");
+
+					MenuInterface.colPrint();
+					MenuInterface.univCol();
 					
-					System.out.println("==============================================================================================");
+					System.out.println("\n======================================================================");
 				
 					for(int i=0;i<univData.size();i++) {
 						System.out.print(univData.get(i).getIdx()+"\t");
 						System.out.print(univData.get(i).getName()+"\t");
 						System.out.print(univData.get(i).getPhoneNumber()+"\t");
-						System.out.print(univData.get(i).getEmail()+"\t\t");
+						System.out.print(univData.get(i).getEmail()+"\t");
 						System.out.print(univData.get(i).getAddress()+"\t");
+						System.out.print(univData.get(i).getRegdate().substring(0,10)+"\t");
 						System.out.print(univData.get(i).getMajor()+"\t");
-						System.out.print(univData.get(i).getYear()+"\t");
-						System.out.println(univData.get(i).getRegdate());
+						System.out.println(univData.get(i).getYear());
+						
 					}
-					System.out.println("==============================================================================================");
+					System.out.println("======================================================================");
 						
 				}else {
 					System.out.println("대학 친구 정보가 없습니다.");
@@ -214,8 +216,7 @@ public class PhoneInfoManager {
 		try {
 			conn=ConnectionProvider.getConnection();
 			
-			System.out.println(" -------------------친구 타입을 선택하세요. ------------------");
-			System.out.println("1.회사 친구 정보   2.대학 친구 정보");
+			MenuInterface.typePrint();
 			int menu=Main.sc.nextInt();
 			Main.sc.nextLine();
 			
@@ -228,24 +229,23 @@ public class PhoneInfoManager {
 				List<PhoneComDto> comData=cDao.select(conn,cName);
 
 				if(comData!=null) {
-					System.out.print("\nIDX"+"\t");
-					System.out.print("회사이름"+"\t");
-					System.out.print("이름"+"\t");
-					System.out.print("전화번호"+"\t");
-					System.out.print("이메일"+"\t");
-					System.out.print("주소"+"\t");
-					System.out.println("등록일자"+"\t");
-					System.out.println("======================================================================");
+
+					
+					MenuInterface.colPrint();
+					MenuInterface.comCol();
+					
+					System.out.println("\n======================================================================");
 					for(int i=0;i<comData.size();i++) {
 						System.out.print(comData.get(i).getIdx()+"\t");
-						System.out.print(comData.get(i).getCompany()+"\t");
+						
 						System.out.print(comData.get(i).getName()+"\t");
 						System.out.print(comData.get(i).getPhoneNumber()+"\t");
 						System.out.print(comData.get(i).getEmail()+"\t");
 						System.out.print(comData.get(i).getAddress()+"\t");
-						System.out.println(comData.get(i).getRegdate());
+						System.out.print(comData.get(i).getRegdate().substring(0,10)+"\t");
+						System.out.println(comData.get(i).getCompany());
 					}
-				System.out.println("======================================================================");
+					System.out.println("======================================================================");
 				}else {
 					System.out.println("회사 친구 정보가 없습니다.");
 				}
@@ -260,27 +260,23 @@ public class PhoneInfoManager {
 				
 			
 				if(univData!=null) {
-					System.out.print("\nIDX"+"\t");
-					System.out.print("회사이름"+"\t");
-					System.out.print("이름"+"\t");
-					System.out.print("전화번호"+"\t");
-					System.out.print("이메일"+"\t");
-					System.out.print("주소"+"\t");
-					System.out.print("전공"+"\t");
-					System.out.print("학년"+"\t");
-					System.out.print("등록일자"+"\t");
-					System.out.println("======================================================================");
+
+					MenuInterface.colPrint();
+					MenuInterface.univCol();
+					
+					System.out.println("\n======================================================================");
 					for(int i=0;i<univData.size();i++) {
 						System.out.print(univData.get(i).getIdx()+"\t");
 						System.out.print(univData.get(i).getName()+"\t");
 						System.out.print(univData.get(i).getPhoneNumber()+"\t");
 						System.out.print(univData.get(i).getEmail()+"\t");
 						System.out.print(univData.get(i).getAddress()+"\t");
-						System.out.println(univData.get(i).getMajor()+"\t");
-						System.out.println(univData.get(i).getYear()+"\t");
-						System.out.println(univData.get(i).getRegdate());
+						System.out.print(univData.get(i).getRegdate().substring(0,10)+"\t");
+						System.out.print(univData.get(i).getMajor()+"\t");
+						System.out.println(univData.get(i).getYear());
+					
 					}
-				System.out.println("======================================================================");
+					System.out.println("======================================================================");
 				}else {
 					System.out.println("대학 친구 정보가 없습니다.");
 				}
@@ -330,14 +326,13 @@ public class PhoneInfoManager {
 			
 			if(result>0) {
 
-				System.out.println(" -------------------친구 타입을 선택하세요. ------------------");
-				System.out.println("1.회사 친구 저장     2.대학 친구 저장");
+				MenuInterface.typePrint();
 				int menu=Main.sc.nextInt();
 				Main.sc.nextLine();
 			
 				switch(menu) {
-				case 1:
-					System.out.println("\n<< 회사 친구 상세 정보 저장 >>");
+				case MenuInterface.menu1:
+					System.out.println("\n---------------  회사 친구 상제 정보 저장  -------------------");
 					PhoneComDao com=new PhoneComDao();
 					
 					System.out.println("회사 이름을 입력하세요.");
@@ -346,14 +341,14 @@ public class PhoneInfoManager {
 					result=com.insert(conn, company);
 
 					if(result >0) {
-						System.out.println("회사 친구는 "+result+"행이 추가되었습니다.");
+						System.out.println("■  회사 친구는 "+result+"행이 추가되었습니다.  ■");
 						conn.commit();
 					}else {
 						System.out.println("잘못된 입력입니다.");
 					}
 					break;
-				case 2:
-					System.out.println("<< 대학 친구 상세 정보 저장 >>");
+				case MenuInterface.menu2:
+					System.out.println("\n-------------  대학 친구 상제 정보 저장  -----------------");
 					PhoneUnivDao univ=new PhoneUnivDao();
 					System.out.println("전공을 입력하세요.");
 					String major=Main.sc.nextLine();
@@ -363,7 +358,7 @@ public class PhoneInfoManager {
 					result=univ.insert(conn,major,year);
 					
 					if(result >0) {
-						System.out.println("대학친구는 "+result+"행이 추가되었습니다.");
+						System.out.println("■   대학친구는 "+result+"행이 추가되었습니다.  ■");
 						conn.commit();
 					}else {
 						System.out.println("잘못된 입력입니다.");
@@ -414,39 +409,36 @@ public class PhoneInfoManager {
 			
 			PhoneInfoDao dao=new PhoneInfoDao();
 			
-				System.out.println(" -------------------친구 타입을 선택하세요. ------------------");
-				
-				System.out.println("\t 1.회사 친구");
-				System.out.println("\t 2.대학 친구");
+				MenuInterface.typePrint();
 				int menu=Main.sc.nextInt();
 				Main.sc.nextLine();
 				
 				switch(menu) {
-				case 1:
+				case MenuInterface.menu1:
 					
 					System.out.println("이름을 입력하세요.");
 					String searchName=Main.sc.nextLine();
 					
 					PhoneComDao cdao=new PhoneComDao();
-					List<PhoneComDto> phoneData=cdao.select(conn,searchName);
+					List<PhoneComDto> comData=cdao.select(conn,searchName);
 
-					if(phoneData !=null && !phoneData.isEmpty()) { //데이터 존재 여부
-						System.out.print("IDX    ");
-						System.out.print("이름      ");
-						System.out.print("전화번호   ");
-						System.out.print("주소   ");
-						System.out.print("이메일  ");
-						System.out.println("등록일자  ");
-						System.out.println("======================================================================");
-						for(int i=0;i<phoneData.size();i++) {
-							System.out.print(phoneData.get(i).getIdx()+"   ");
-							System.out.print(phoneData.get(i).getName()+"   ");
-							System.out.print(phoneData.get(i).getPhoneNumber()+"   ");
-							System.out.print(phoneData.get(i).getAddress()+"    ");
-							System.out.print(phoneData.get(i).getEmail()+"   ");
-							System.out.println(phoneData.get(i).getRegdate().substring(0,10));
+					if(comData !=null && !comData.isEmpty()) { //데이터 존재 여부
+						
+						MenuInterface.colPrint();
+						MenuInterface.comCol();
+						
+						System.out.println("\n======================================================================");
+						for(int i=0;i<comData.size();i++) {
+							System.out.print(comData.get(i).getIdx()+"\t");
+							
+							System.out.print(comData.get(i).getName()+"\t");
+							System.out.print(comData.get(i).getPhoneNumber()+"\t");
+							System.out.print(comData.get(i).getEmail()+"\t");
+							System.out.print(comData.get(i).getAddress()+"\t");
+							System.out.print(comData.get(i).getRegdate().substring(0,10)+"\t");
+							System.out.println(comData.get(i).getCompany());
 						}
-						System.out.println("======================================================================");
+					System.out.println("======================================================================");
 	
 					
 					System.out.println("회사 친구 이름을 입력하세요.");
@@ -464,20 +456,20 @@ public class PhoneInfoManager {
 					if(result >0) {
 						System.out.println("회사 이름을 입력하세요.");
 						String nCompany=Main.sc.nextLine();
-						System.out.println(phoneData.get(0).getIdx());
-						result=	cdao.update(conn,phoneData.get(0).getIdx(),nCompany);
+						System.out.println(comData.get(0).getIdx());
+						result=	cdao.update(conn,comData.get(0).getIdx(),nCompany);
 						if(result>0) {
 							System.out.println("■  "+result+"행이 수정되었습니다.  ■");
 							conn.commit();
 						}	
 					} else {
-						System.out.println("정보가 추가되지 않았습니다.");
+						System.out.println("정보가 수정되지 않았습니다.");
 					}
 					}else {
 						System.out.println("존재하는 정보가 없습니다. 다시입력하세요.");
 					}
 					break;
-				case 2:
+				case MenuInterface.menu2:
 					
 					System.out.println("이름을 입력하세요.");
 					String searchUniv=Main.sc.nextLine();
@@ -485,22 +477,22 @@ public class PhoneInfoManager {
 					List<PhoneUnivDto> univData=udao.select(conn,searchUniv);
 					
 					if(univData !=null && !univData.isEmpty()) { //데이터 존재 여부
-						System.out.print("IDX    ");
-						System.out.print("이름      ");
-						System.out.print("전화번호   ");
-						System.out.print("주소   ");
-						System.out.print("이메일  ");
-						System.out.println("등록일자  ");
-						System.out.println("======================================================================");
+						MenuInterface.colPrint();
+						MenuInterface.univCol();
+						
+						System.out.println("\n======================================================================");
 						for(int i=0;i<univData.size();i++) {
-							System.out.print(univData.get(i).getIdx()+"   ");
-							System.out.print(univData.get(i).getName()+"   ");
-							System.out.print(univData.get(i).getPhoneNumber()+"   ");
-							System.out.print(univData.get(i).getAddress()+"    ");
-							System.out.print(univData.get(i).getEmail()+"   ");
-							System.out.println(univData.get(i).getRegdate().substring(0,10));
+							System.out.print(univData.get(i).getIdx()+"\t");
+							System.out.print(univData.get(i).getName()+"\t");
+							System.out.print(univData.get(i).getPhoneNumber()+"\t");
+							System.out.print(univData.get(i).getEmail()+"\t");
+							System.out.print(univData.get(i).getAddress()+"\t");
+							System.out.print(univData.get(i).getRegdate().substring(0,10)+"\t");
+							System.out.print(univData.get(i).getMajor()+"\t");
+							System.out.println(univData.get(i).getYear());
+						
 						}
-						System.out.println("======================================================================");
+					System.out.println("======================================================================");
 					
 					System.out.println("대학 친구 이름을 입력하세요.");
 					String uName=Main.sc.nextLine();
@@ -570,10 +562,7 @@ public class PhoneInfoManager {
 			conn=ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 			
-				System.out.println(" -------------------친구 타입을 선택하세요. ------------------");
-				
-				System.out.println("\t 1.회사 친구");
-				System.out.println("\t 2.대학 친구");
+				MenuInterface.typePrint();
 				int menu=Main.sc.nextInt();
 				Main.sc.nextLine();
 				
@@ -586,22 +575,21 @@ public class PhoneInfoManager {
 					List<PhoneComDto> comData=cdao.select(conn,searchCom);
 
 					if(comData !=null && !comData.isEmpty()) { //데이터 존재 여부
-						System.out.print("IDX    ");
-						System.out.print("이름      ");
-						System.out.print("전화번호   ");
-						System.out.print("주소   ");
-						System.out.print("이메일  ");
-						System.out.println("등록일자  ");
-						System.out.println("======================================================================");
+						MenuInterface.colPrint();
+						MenuInterface.comCol();
+						
+						System.out.println("\n======================================================================");
 						for(int i=0;i<comData.size();i++) {
-							System.out.print(comData.get(i).getIdx()+"   ");
-							System.out.print(comData.get(i).getName()+"   ");
-							System.out.print(comData.get(i).getPhoneNumber()+"   ");
-							System.out.print(comData.get(i).getAddress()+"    ");
-							System.out.print(comData.get(i).getEmail()+"   ");
-							System.out.println(comData.get(i).getRegdate().substring(0,10));
+							System.out.print(comData.get(i).getIdx()+"\t");
+							
+							System.out.print(comData.get(i).getName()+"\t");
+							System.out.print(comData.get(i).getPhoneNumber()+"\t");
+							System.out.print(comData.get(i).getEmail()+"\t");
+							System.out.print(comData.get(i).getAddress()+"\t");
+							System.out.print(comData.get(i).getRegdate().substring(0,10)+"\t");
+							System.out.println(comData.get(i).getCompany());
 						}
-						System.out.println("======================================================================");
+					System.out.println("======================================================================");
 					
 						
 						result=cdao.delete(conn,searchCom);
@@ -624,22 +612,22 @@ public class PhoneInfoManager {
 					List<PhoneUnivDto> univData=udao.select(conn,searchUniv);
 					
 					if(univData !=null && !univData.isEmpty()) { //데이터 존재 여부
-						System.out.print("IDX    ");
-						System.out.print("이름      ");
-						System.out.print("전화번호   ");
-						System.out.print("주소   ");
-						System.out.print("이메일  ");
-						System.out.println("등록일자  ");
-						System.out.println("======================================================================");
+						MenuInterface.colPrint();
+						MenuInterface.univCol();
+						
+						System.out.println("\n======================================================================");
 						for(int i=0;i<univData.size();i++) {
-							System.out.print(univData.get(i).getIdx()+"   ");
-							System.out.print(univData.get(i).getName()+"   ");
-							System.out.print(univData.get(i).getPhoneNumber()+"   ");
-							System.out.print(univData.get(i).getAddress()+"    ");
-							System.out.print(univData.get(i).getEmail()+"   ");
-							System.out.println(univData.get(i).getRegdate().substring(0,10));
+							System.out.print(univData.get(i).getIdx()+"\t");
+							System.out.print(univData.get(i).getName()+"\t");
+							System.out.print(univData.get(i).getPhoneNumber()+"\t");
+							System.out.print(univData.get(i).getEmail()+"\t");
+							System.out.print(univData.get(i).getAddress()+"\t");
+							System.out.print(univData.get(i).getRegdate().substring(0,10)+"\t");
+							System.out.print(univData.get(i).getMajor()+"\t");
+							System.out.println(univData.get(i).getYear());
+						
 						}
-						System.out.println("======================================================================");
+					System.out.println("======================================================================");
 						
 						
 						

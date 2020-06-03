@@ -116,7 +116,6 @@ public class PhoneUnivDao {
 		return univData;
 	}
 
-	
 	//대학 친구 정보 저장
 	public int insert(Connection conn,String major,String year) {
 		
