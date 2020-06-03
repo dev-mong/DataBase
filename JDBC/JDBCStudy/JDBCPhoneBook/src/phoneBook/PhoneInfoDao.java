@@ -24,7 +24,7 @@ public class PhoneInfoDao {
 			conn=ConnectionProvider.getConnection();
 			
 			//sql 처리
-			String sql="select * from phoneInfo_basic";
+			String sql="select * from phoneInfo_basic order by idx";
 			pstmt=conn.prepareStatement(sql);
 			
 			rs=pstmt.executeQuery();
@@ -140,6 +140,50 @@ public class PhoneInfoDao {
 		return phoneData;
 	}
 	
-	
+	//기본 정보 추가
+	public int insert(String fr_name, String fr_phoneNumber, String fr_email,
+			String fr_address) {
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		int result=0;
+		
+		try {
+			
+			conn=ConnectionProvider.getConnection();
+			
+			//sql
+			String sql="insert into phoneInfo_basic(idx,fr_name,fr_phonenumber,fr_email,fr_address) "
+					+ "values(pb_basic_idx_seq.nextval,?,?,?,?) ";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, fr_name);
+			pstmt.setString(2, fr_phoneNumber);
+			pstmt.setString(3, fr_email);
+			pstmt.setString(4, fr_address);
+			
+			result=pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		
+		return result;
+		
+	}
 	
 }
