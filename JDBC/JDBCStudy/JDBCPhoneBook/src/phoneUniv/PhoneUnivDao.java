@@ -171,7 +171,7 @@ public class PhoneUnivDao {
 		return result;
 	}
 
-	public int delete(String fr_name, Connection conn) {
+	public int delete(Connection conn,String searchUniv) {
 		
 		PreparedStatement pstmt=null;
 		int result=0;
@@ -181,7 +181,7 @@ public class PhoneUnivDao {
 			String sql="delete from phoneInfo_basic where fr_name=?";
 			pstmt=conn.prepareStatement(sql);
 			
-			pstmt.setString(1, fr_name);
+			pstmt.setString(1, searchUniv);
 			
 			result=pstmt.executeUpdate();
 			

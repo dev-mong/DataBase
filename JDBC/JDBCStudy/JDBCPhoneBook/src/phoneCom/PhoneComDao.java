@@ -19,7 +19,7 @@ public class PhoneComDao {
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 
-		List<PhoneComDto> phoneData=new ArrayList<>(); 
+		List<PhoneComDto> comData=new ArrayList<>(); 
 		
 		try {
 			
@@ -39,7 +39,7 @@ public class PhoneComDao {
 						rs.getString("fr_regdate"),
 						rs.getString("fr_c_company")
 						);
-				phoneData.add(cdot);
+				comData.add(cdot);
 
 			}
 			
@@ -64,7 +64,7 @@ public class PhoneComDao {
 			
 		}
 		
-		return phoneData;
+		return comData;
 	}
 	
 	//기본정보 검색
@@ -186,7 +186,7 @@ public class PhoneComDao {
 	}
 
 	//삭제
-	public int delete(String name, Connection conn) {
+	public int delete(Connection conn,String searchName) {
 		
 
 		PreparedStatement pstmt=null;
@@ -197,7 +197,7 @@ public class PhoneComDao {
 			String sql="delete from phoneInfo_basic where fr_name=?";
 			pstmt=conn.prepareStatement(sql);
 			
-			pstmt.setString(1, name);
+			pstmt.setString(1, searchName);
 			
 			result=pstmt.executeUpdate();
 			

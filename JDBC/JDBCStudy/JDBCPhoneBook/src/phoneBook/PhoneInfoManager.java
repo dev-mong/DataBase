@@ -117,20 +117,20 @@ public class PhoneInfoManager {
 			
 				if(comData!=null && !comData.isEmpty()) {
 					System.out.print("\nIDX"+"\t");
-					System.out.print("회사이름"+"\t");
 					System.out.print("이름"+"\t");
 					System.out.print("전화번호"+"\t");
 					System.out.print("이메일"+"\t");
 					System.out.print("주소"+"\t");
+					System.out.print("회사이름"+"\t");
 					System.out.println("등록일자"+"\t");
 					System.out.println("======================================================================");
 					for(int i=0;i<comData.size();i++) {
 						System.out.print(comData.get(i).getIdx()+"\t");
-						System.out.print(comData.get(i).getCompany()+"\t");
 						System.out.print(comData.get(i).getName()+"\t");
 						System.out.print(comData.get(i).getPhoneNumber()+"\t");
 						System.out.print(comData.get(i).getEmail()+"\t");
 						System.out.print(comData.get(i).getAddress()+"\t");
+						System.out.print(comData.get(i).getCompany()+"\t");
 						System.out.println(comData.get(i).getRegdate());
 					}
 				System.out.println("======================================================================");
@@ -209,8 +209,7 @@ public class PhoneInfoManager {
 				
 				PhoneComDao cDao=new PhoneComDao();
 				List<PhoneComDto> comData=cDao.select(conn,cName);
-				
-				
+
 				if(comData!=null) {
 					System.out.print("\nIDX"+"\t");
 					System.out.print("회사이름"+"\t");
@@ -233,7 +232,6 @@ public class PhoneInfoManager {
 				}else {
 					System.out.println("회사 친구 정보가 없습니다.");
 				}
-				
 				
 				break;
 			case 2:
@@ -267,7 +265,7 @@ public class PhoneInfoManager {
 					}
 				System.out.println("======================================================================");
 				}else {
-					System.out.println("회사 친구 정보가 없습니다.");
+					System.out.println("대학 친구 정보가 없습니다.");
 				}
 				
 				
@@ -584,7 +582,8 @@ public class PhoneInfoManager {
 						}
 						System.out.println("======================================================================");
 					
-						result=cdao.delete(searchName, conn);
+						
+						result=cdao.delete(conn,searchName);
 						if(result>0) {
 							System.out.println("■  "+result+"행이 삭제되었습니다.  ■");
 							conn.commit();
@@ -623,7 +622,7 @@ public class PhoneInfoManager {
 						
 						
 						
-						result=udao.delete(searchUniv, conn);
+						result=udao.delete(conn,searchUniv);
 						if(result>0) {
 							System.out.println("■  "+result+"행이 삭제되었습니다.  ■");
 						}
@@ -656,86 +655,9 @@ public class PhoneInfoManager {
 		}
 		
 	}
-	public void pDelete() {
 
-		Connection conn=null;	
-		int result=0;
-		
-		try {
-			while(true) {
-			conn=ConnectionProvider.getConnection();
-			conn.setAutoCommit(false); //자동 커밋 false
-			
-			System.out.println("이름을 검색하세요.");
-			String fr_name=Main.sc.nextLine();		
-			
-			List<PhoneInfoDto> phoneData=dao.searchName(fr_name, conn);
-			
-				if(phoneData !=null && !phoneData.isEmpty()) { //데이터 존재 여부
-					System.out.print("IDX    ");
-					System.out.print("이름      ");
-					System.out.print("전화번호   ");
-					System.out.print("주소   ");
-					System.out.print("이메일  ");
-					System.out.println("등록일자  ");
-					System.out.println("======================================================================");
-					for(int i=0;i<phoneData.size();i++) {
-						System.out.print(phoneData.get(i).getIdx()+"   ");
-						System.out.print(phoneData.get(i).getName()+"   ");
-						System.out.print(phoneData.get(i).getPhoneNumber()+"   ");
-						System.out.print(phoneData.get(i).getAddress()+"    ");
-						System.out.print(phoneData.get(i).getEmail()+"   ");
-						System.out.println(phoneData.get(i).getRegdate().substring(0,10));
-					}
-					System.out.println("======================================================================");
-
-					result=dao.delete(fr_name, conn);
-					if(result>0) {
-						System.out.println("■  "+result+"행이 삭제되었습니다.  ■");
-						conn.commit();
-					}
-					return;
-					
-				}else {
-					System.out.println("존재하는 정보가 없습니다. 다시입력하세요.");
-				}
-			}
-		} catch (SQLException e) {
-			
-			if(conn != null) {
-				try {
-					conn.rollback();
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-			}
-		} 
-		finally {
-			if(conn !=null) {
-				try {
-					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
 
 		
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
+	
+	
