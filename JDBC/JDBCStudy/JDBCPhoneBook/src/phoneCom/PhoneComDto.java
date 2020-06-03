@@ -1,4 +1,4 @@
-package PhoneCom;
+package phoneCom;
 
 public class PhoneComDto {
 

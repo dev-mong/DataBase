@@ -4,8 +4,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-import PhoneCom.PhoneComDao;
-import PhoneCom.PhoneComDto;
+import phoneCom.PhoneComDao;
+import phoneCom.PhoneComDto;
 
 //데이터 입출력
 
@@ -111,17 +111,23 @@ public class PhoneInfoManager {
 				PhoneComDao comDao=new PhoneComDao();
 				List<PhoneComDto> comData=comDao.comList(conn);
 			
+				System.out.print("\nIDX"+"\t");
+				System.out.print("회사이름"+"\t");
+				System.out.print("이름"+"\t");
+				System.out.print("전화번호"+"\t");
+				System.out.print("이메일"+"\t");
+				System.out.print("주소"+"\t");
+				System.out.println("등록일자"+"\t");
 				System.out.println("======================================================================");
-				System.out.println("");
 				if(comData!=null) {
 					for(int i=0;i<comData.size();i++) {
-						System.out.println(comData.get(i).getIdx());
-						System.out.println(comData.get(i).getName());
-						System.out.println(comData.get(i).getPhoneNumber());
-						System.out.println(comData.get(i).getEmail());
-						System.out.println(comData.get(i).getAddress());
+						System.out.print(comData.get(i).getIdx()+"\t");
+						System.out.print(comData.get(i).getFr_c_company()+"\t");
+						System.out.print(comData.get(i).getName()+"\t");
+						System.out.print(comData.get(i).getPhoneNumber()+"\t");
+						System.out.print(comData.get(i).getEmail()+"\t");
+						System.out.print(comData.get(i).getAddress()+"\t");
 						System.out.println(comData.get(i).getRegdate());
-						System.out.println(comData.get(i).getFr_c_company());
 					}
 				System.out.println("======================================================================");
 				}else {
@@ -131,6 +137,9 @@ public class PhoneInfoManager {
 				
 				break;
 			case 2: 
+				System.out.println("<<   대학 친구 정보 조회     >>");
+				
+				
 				break;
 				
 			}

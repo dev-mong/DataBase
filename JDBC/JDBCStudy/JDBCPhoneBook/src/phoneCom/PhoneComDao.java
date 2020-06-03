@@ -1,4 +1,4 @@
-package PhoneCom;
+package phoneCom;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,10 +24,10 @@ public class PhoneComDao {
 		try {
 			
 			//sql 처리
-			String sql="select * from phoneInfo_com, phoneInfo_basic b where c.cfr_ref=b.idx order by idx";
+			String sql="select * from phoneInfo_com_all";
 			pstmt=conn.prepareStatement(sql);
-			
-			rs=pstmt.executeQuery();		
+
+			rs=pstmt.executeQuery();
 			
 			while(rs.next()) {
 				PhoneComDto cdot=new PhoneComDto(
@@ -36,7 +36,7 @@ public class PhoneComDao {
 						rs.getString("fr_phonenumber"),
 						rs.getString("fr_email"),
 						rs.getString("fr_address"),
-						rs.getString("fr_refdate"),
+						rs.getString("fr_regdate"),
 						rs.getString("fr_c_company")
 						);
 				phoneData.add(cdot);
