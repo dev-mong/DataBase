@@ -11,11 +11,11 @@ public class PhoneComDto {
 	
 	
 
-	private String fr_c_company; //회사이름
+	private String company; //회사이름
 
 	
 	public PhoneComDto(int idx, String name, String phoneNumber, String address, String email, String regdate,
-			String fr_c_company) {
+			String company) {
 		
 		this.idx=idx;
 		this.name=name;
@@ -23,8 +23,7 @@ public class PhoneComDto {
 		this.address=address;
 		this.email=email;
 		this.regdate=regdate;
-	
-		this.fr_c_company=fr_c_company;
+		this.company=company;
 		
 		
 	}
@@ -103,14 +102,17 @@ public class PhoneComDto {
 	}
 
 
-	public String getFr_c_company() {
-		return fr_c_company;
+
+	public String getCompany() {
+		return company;
 	}
 
 
-	public void setFr_c_company(String fr_c_company) {
-		this.fr_c_company = fr_c_company;
+
+	public void setCompany(String company) {
+		this.company = company;
 	}
+
 
 
 }

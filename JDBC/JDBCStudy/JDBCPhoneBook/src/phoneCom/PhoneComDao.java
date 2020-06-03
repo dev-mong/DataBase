@@ -68,7 +68,7 @@ public class PhoneComDao {
 	}
 	
 	//기본정보 검색
-	public List<PhoneComDto> searchName(String fr_name, Connection conn){
+	public List<PhoneComDto> select(Connection conn,String cName){
 		
 
 		PreparedStatement pstmt=null;
@@ -77,10 +77,10 @@ public class PhoneComDao {
 		List<PhoneComDto> phoneData=new ArrayList<>(); 
 		
 		try {
-			String sql="select * from phoneInfo_com where fr_name=?";
+			String sql="select * from phoneInfo_com_all where fr_name=?";
 			pstmt=conn.prepareStatement(sql);
 			
-			pstmt.setString(1,fr_name);
+			pstmt.setString(1,cName);
 			
 			rs=pstmt.executeQuery();
 			
@@ -91,7 +91,7 @@ public class PhoneComDao {
 						rs.getString("fr_phonenumber"),
 						rs.getString("fr_email"),
 						rs.getString("fr_address"),
-						rs.getString("fr_refdate"),
+						rs.getString("fr_regdate"),
 						rs.getString("fr_c_company")
 						);
 				phoneData.add(pdto);
@@ -121,7 +121,7 @@ public class PhoneComDao {
 	}
 	
 	//기본 정보 추가
-	public int insert(Connection conn, String fr_C_company) { //회사 정보 추가 
+	public int insert(Connection conn, String company) { //회사 정보 추가 
 		
 		PreparedStatement pstmt=null;
 		int result=0;
@@ -132,7 +132,7 @@ public class PhoneComDao {
 			String sql="insert into phoneInfo_com values(pb_com_idx_seq.nextval, ?,pb_basic_idx_seq.currval)";
 			pstmt=conn.prepareStatement(sql);
 	
-			pstmt.setString(1, fr_C_company);
+			pstmt.setString(1, company);
 			
 			result=pstmt.executeUpdate();
 			
@@ -154,7 +154,69 @@ public class PhoneComDao {
 	}
 
 	
+	public int update(Connection conn,int idx, String ncompany) {
 
+		int result=0;
+		PreparedStatement pstmt=null;
+		
+		try {
+			
+			String sql="update phoneInfo_com set fr_c_company=? where cfr_ref=?";	
+			pstmt=conn.prepareStatement(sql);
+			
+			pstmt.setString(1,ncompany);
+			pstmt.setInt(2,idx);
+			
+			result=pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		
+		return result;
+	}
+
+	//삭제
+	public int delete(String name, Connection conn) {
+		
+
+		PreparedStatement pstmt=null;
+		int result=0;
+		
+		try {
+
+			String sql="delete from phoneInfo_basic where fr_name=?";
+			pstmt=conn.prepareStatement(sql);
+			
+			pstmt.setString(1, name);
+			
+			result=pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		
+		return result;
+	}
+	
 	
 	
 }

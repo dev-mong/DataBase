@@ -166,7 +166,7 @@ public class PhoneInfoDao {
 	
 	//기본 정보 수정
 	public int update(Connection conn, String searchName,
-			String nfr_name, String nfr_phoneNumber, String nfr_email,String nfr_address) {
+		String nname, String nphoneNumber, String nemail,String naddress) {
 		
 		int result=0;
 		PreparedStatement pstmt=null;
@@ -176,10 +176,10 @@ public class PhoneInfoDao {
 		try {
 			pstmt=conn.prepareStatement(sql);
 			
-			pstmt.setString(1, nfr_name);
-			pstmt.setString(2, nfr_phoneNumber);
-			pstmt.setString(3, nfr_email);
-			pstmt.setString(4, nfr_address);
+			pstmt.setString(1, nname);
+			pstmt.setString(2, nphoneNumber);
+			pstmt.setString(3, nemail);
+			pstmt.setString(4, naddress);
 			pstmt.setString(5, searchName);
 			
 			result=pstmt.executeUpdate();
