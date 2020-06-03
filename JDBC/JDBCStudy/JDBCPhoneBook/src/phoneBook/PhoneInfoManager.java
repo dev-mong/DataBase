@@ -10,11 +10,9 @@ import phoneCom.PhoneComDto;
 import phoneUniv.PhoneUnivDao;
 import phoneUniv.PhoneUnivDto;
 
-//데이터 입출력
 
 public class PhoneInfoManager {
-	
-	PhoneInfoDao dao=new PhoneInfoDao();
+
 	
 	//메뉴
 	public void pmMenu() {
@@ -65,33 +63,52 @@ public class PhoneInfoManager {
 	//기본 정보 전체 조회 
 	public void pAllList() {
 		
-		List<PhoneInfoAllDto> phoneData = dao.InfoList();
-	
-		if(phoneData !=null && !phoneData.isEmpty()) { //데이터 존재 여부
-			System.out.print("IDX"+"     ");
-			System.out.printf("%5s","이름"+"     ");
-			System.out.printf("%5s","전화번호"+"     ");
-			System.out.printf("%5s","이메일"+"     ");
-			System.out.printf("%5s","주소 "+"     ");
-			System.out.printf("%5s","등록일자 "+"     ");
-			System.out.printf("%5s","회사 이름"+"     ");
-			System.out.printf("전공"+"       ");
-			System.out.println("학년");
+		Connection conn=null;
+		
+		try {
+			
+			conn=ConnectionProvider.getConnection();
+			PhoneInfoDao dao=new PhoneInfoDao();
+			List<PhoneInfoAllDto> phoneData = dao.InfoList(conn);
+			
+			if(phoneData !=null && !phoneData.isEmpty()) { //데이터 존재 여부
+				System.out.print("IDX"+"     ");
+				System.out.printf("%5s","이름"+"     ");
+				System.out.printf("%5s","전화번호"+"     ");
+				System.out.printf("%5s","이메일"+"     ");
+				System.out.printf("%5s","주소 "+"     ");
+				System.out.printf("%5s","등록일자 "+"     ");
+				System.out.printf("%5s","회사 이름"+"     ");
+				System.out.printf("전공"+"       ");
+				System.out.println("학년");
+				System.out.println("======================================================================");
+				for(int i=0;i<phoneData.size();i++) {
+					System.out.print(phoneData.get(i).getIdx()+"   ");
+					System.out.printf("%5s",phoneData.get(i).getName()+"   ");
+					System.out.printf("%5s",phoneData.get(i).getPhoneNumber()+"   ");
+					System.out.printf("%5s",phoneData.get(i).getEmail()+"   ");
+					System.out.printf("%5s",phoneData.get(i).getAddress()+"   ");
+					System.out.printf("%5s",phoneData.get(i).getRegdate().substring(0,10)+"   ");
+					System.out.printf("%5s",phoneData.get(i).getComName()+"   ");
+					System.out.printf("%5s",phoneData.get(i).getMajor()+"   ");
+					System.out.println(phoneData.get(i).getYear());
+				}
+			}
+			
 			System.out.println("======================================================================");
-			for(int i=0;i<phoneData.size();i++) {
-				System.out.print(phoneData.get(i).getIdx()+"   ");
-				System.out.printf("%5s",phoneData.get(i).getName()+"   ");
-				System.out.printf("%5s",phoneData.get(i).getPhoneNumber()+"   ");
-				System.out.printf("%5s",phoneData.get(i).getEmail()+"   ");
-				System.out.printf("%5s",phoneData.get(i).getAddress()+"   ");
-				System.out.printf("%5s",phoneData.get(i).getRegdate().substring(0,10)+"   ");
-				System.out.printf("%5s",phoneData.get(i).getComName()+"   ");
-				System.out.printf("%5s",phoneData.get(i).getMajor()+"   ");
-				System.out.println(phoneData.get(i).getYear());
+			
+		} catch (SQLException e) {
+		
+			e.printStackTrace();
+		} finally {
+			if(conn !=null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
-		
-		System.out.println("======================================================================");
 	
 	}
 	
@@ -291,9 +308,12 @@ public class PhoneInfoManager {
 	public void pInsert() {
 		
 		Connection conn=null;
+		
+	
 		try {
 			conn=ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
+			PhoneInfoDao dao=new PhoneInfoDao();	
 			
 			System.out.println("이름을 입력하세요");
 			String fr_name=Main.sc.nextLine();
@@ -307,9 +327,8 @@ public class PhoneInfoManager {
 
 			int result = dao.insert(conn,fr_name, fr_phoneNumber,fr_email,fr_address);
 			
-			System.out.println("======================================================================");
+			
 			if(result>0) {
-				System.out.println(result+"행이 추가 되었습니다.\n");
 
 				System.out.println(" -------------------친구 타입을 선택하세요. ------------------");
 				System.out.println("1.회사 친구 저장     2.대학 친구 저장");
@@ -392,6 +411,8 @@ public class PhoneInfoManager {
 		try {
 			conn=ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
+			
+			PhoneInfoDao dao=new PhoneInfoDao();
 			
 				System.out.println(" -------------------친구 타입을 선택하세요. ------------------");
 				
@@ -559,12 +580,12 @@ public class PhoneInfoManager {
 				switch(menu) {
 				case 1:
 					System.out.println("이름을 입력하세요.");
-					String searchName=Main.sc.nextLine();
+					String searchCom=Main.sc.nextLine();
 					
 					PhoneComDao cdao=new PhoneComDao();
-					List<PhoneComDto> phoneData=cdao.select(conn,searchName);
+					List<PhoneComDto> comData=cdao.select(conn,searchCom);
 
-					if(phoneData !=null && !phoneData.isEmpty()) { //데이터 존재 여부
+					if(comData !=null && !comData.isEmpty()) { //데이터 존재 여부
 						System.out.print("IDX    ");
 						System.out.print("이름      ");
 						System.out.print("전화번호   ");
@@ -572,18 +593,18 @@ public class PhoneInfoManager {
 						System.out.print("이메일  ");
 						System.out.println("등록일자  ");
 						System.out.println("======================================================================");
-						for(int i=0;i<phoneData.size();i++) {
-							System.out.print(phoneData.get(i).getIdx()+"   ");
-							System.out.print(phoneData.get(i).getName()+"   ");
-							System.out.print(phoneData.get(i).getPhoneNumber()+"   ");
-							System.out.print(phoneData.get(i).getAddress()+"    ");
-							System.out.print(phoneData.get(i).getEmail()+"   ");
-							System.out.println(phoneData.get(i).getRegdate().substring(0,10));
+						for(int i=0;i<comData.size();i++) {
+							System.out.print(comData.get(i).getIdx()+"   ");
+							System.out.print(comData.get(i).getName()+"   ");
+							System.out.print(comData.get(i).getPhoneNumber()+"   ");
+							System.out.print(comData.get(i).getAddress()+"    ");
+							System.out.print(comData.get(i).getEmail()+"   ");
+							System.out.println(comData.get(i).getRegdate().substring(0,10));
 						}
 						System.out.println("======================================================================");
 					
 						
-						result=cdao.delete(conn,searchName);
+						result=cdao.delete(conn,searchCom);
 						if(result>0) {
 							System.out.println("■  "+result+"행이 삭제되었습니다.  ■");
 							conn.commit();

@@ -11,17 +11,14 @@ public class PhoneInfoDao {
 
 	
 	//전체 조회
-	public List<PhoneInfoAllDto> InfoList(){
+	public List<PhoneInfoAllDto> InfoList(Connection conn){
 		
-		Connection conn=null;
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 
 		List<PhoneInfoAllDto> PhoneData=new ArrayList<>(); 
 		
 		try {
-			//DB 연결
-			conn=ConnectionProvider.getConnection();
 			
 			//sql 처리
 			String sql="select * from phoneInfo_all_view order by idx";
@@ -58,13 +55,6 @@ public class PhoneInfoDao {
 			}if(pstmt !=null) {
 				try {
 					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if(conn !=null) {
-				try {
-					conn.close();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -163,7 +153,6 @@ public class PhoneInfoDao {
 		
 	}
 
-	
 	//기본 정보 수정
 	public int update(Connection conn, String searchName,
 		String nname, String nphoneNumber, String nemail,String naddress) {
@@ -192,28 +181,6 @@ public class PhoneInfoDao {
 		return result;
 	}
 	
-	//기본 정보 삭제
-	public int delete(String fr_name, Connection conn) {
-		
 
-		PreparedStatement pstmt=null;
-		int result=0;
-		
-		try {
-
-			String sql="delete from phoneInfo_basic where fr_name=?";
-			pstmt=conn.prepareStatement(sql);
-			
-			pstmt.setString(1, fr_name);
-			
-			result=pstmt.executeUpdate();
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return result;
-	}
-	
 	
 }

@@ -43,7 +43,6 @@ public class PhoneUnivDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			//데이터 베이스 연결 종료
 			
 			if(rs !=null) {
 				try {
@@ -65,37 +64,7 @@ public class PhoneUnivDao {
 		return univData;
 	}
 	
-	//대학 친구 정보 저장
-	public int insert(Connection conn,String major,String year) {
-		
-		PreparedStatement pstmt=null;
-		int result=0;
-		
-		try {
-			
-			//sql
-			String sql="insert into phoneInfo_univ values(pb_com_idx_seq.nextval, ?,?,pb_basic_idx_seq.currval)";
-			pstmt=conn.prepareStatement(sql);
-	
-			pstmt.setString(1, major);
-			pstmt.setString(2, year);
-			
-			result=pstmt.executeUpdate();
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return result;
-	}
-
+	//대학 친구 검색 
 	public List<PhoneUnivDto> select(Connection conn, String uname){
 
 		PreparedStatement pstmt=null;
@@ -129,7 +98,6 @@ public class PhoneUnivDao {
 		}catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			//데이터 베이스 연결 종료
 			if(rs !=null) {
 				try {
 					rs.close();
@@ -148,6 +116,40 @@ public class PhoneUnivDao {
 		return univData;
 	}
 
+	
+	//대학 친구 정보 저장
+	public int insert(Connection conn,String major,String year) {
+		
+		PreparedStatement pstmt=null;
+		int result=0;
+		
+		try {
+			
+			//sql
+			String sql="insert into phoneInfo_univ values(pb_com_idx_seq.nextval, ?,?,pb_basic_idx_seq.currval)";
+			pstmt=conn.prepareStatement(sql);
+	
+			pstmt.setString(1, major);
+			pstmt.setString(2, year);
+			
+			result=pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return result;
+	}
+
+
+	//대학 친구 정보 수정 
 	public int update(Connection conn,int idx, String nMajor, String nYear) {
 
 		int result=0;
@@ -155,7 +157,7 @@ public class PhoneUnivDao {
 		
 		try {
 			
-			String sql="update phoneInfo_univ set fr_u_major=?, fr_u_year=? where cfr_ref=?";	
+			String sql="update phoneInfo_univ set fr_u_major=?, fr_u_year=? where ufr_ref=?";	
 			pstmt=conn.prepareStatement(sql);
 			
 			pstmt.setString(1,nMajor);
@@ -171,6 +173,7 @@ public class PhoneUnivDao {
 		return result;
 	}
 
+	//대학 친구 정보 삭제
 	public int delete(Connection conn,String searchUniv) {
 		
 		PreparedStatement pstmt=null;

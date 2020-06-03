@@ -101,7 +101,6 @@ public class PhoneComDao {
 		}catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			//데이터 베이스 연결 종료
 			if(rs !=null) {
 				try {
 					rs.close();
