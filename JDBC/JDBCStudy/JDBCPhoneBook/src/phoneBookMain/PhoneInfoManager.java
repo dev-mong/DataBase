@@ -136,7 +136,7 @@ public class PhoneInfoManager {
 			
 			switch(menu) {
 			case MenuInterface.menu1:
-				System.out.println("<<   회사 친구 정보 조회     >>");
+				System.out.println("\n---------------  회사 친구 정보 조회  -------------------");
 				PhoneComDao comDao=new PhoneComDao();
 				List<PhoneComDto> comData=comDao.comList(conn);
 				
@@ -162,7 +162,7 @@ public class PhoneInfoManager {
 				break;
 				
 			case MenuInterface.menu2: 
-				System.out.println("<<   대학 친구 정보 조회     >>");
+				System.out.println("\n---------------  회사 친구 정보 조회  -------------------");
 				PhoneUnivDao uDao=new PhoneUnivDao();
 				List<PhoneUnivDto> univData=uDao.uList(conn);
 				
