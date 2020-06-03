@@ -16,7 +16,7 @@ public class PhoneInfoManager {
 		while(true) {
 		System.out.println("\n   \t\tPhoneBook MENU  ");	
 		System.out.println("----------------------------------------------------");
-		System.out.println("\t1.전체 조회   2.검색   3.전화번호 저장    4.전화번호 삭제   0.종료");
+		System.out.println("\t1.전체 조회   2.검색   3.전화번호 저장   4.전화번호 수정  5.전화번호 삭제    0.종료");
 		System.out.println("----------------------------------------------------");
 		int menu=Main.sc.nextInt();
 		Main.sc.nextLine();
@@ -35,6 +35,10 @@ public class PhoneInfoManager {
 		pInsert();
 		break;
 		case 4:
+		System.out.println("<< 전화번호 수정>>");
+		pUpdate();
+		break;
+		case 5:
 		System.out.println("<< 전화번호 삭제 >>");
 		pDelete();
 		break;
@@ -153,6 +157,80 @@ public class PhoneInfoManager {
 		
 	}
 	
+	public void pUpdate() {
+		Connection conn=null;	
+		int result=0;
+		
+		try {
+			conn=ConnectionProvider.getConnection();
+			conn.setAutoCommit(false);
+			
+			System.out.println("이름을 입력하세요.");
+			String searchName=Main.sc.nextLine();
+			List<PhoneInfoDto> phoneData=dao.searchName(searchName, conn);
+			
+			if(phoneData !=null && !phoneData.isEmpty()) { //데이터 존재 여부
+				System.out.print("IDX    ");
+				System.out.print("이름      ");
+				System.out.print("전화번호   ");
+				System.out.print("주소   ");
+				System.out.print("이메일  ");
+				System.out.println("등록일자  ");
+				System.out.println("======================================================================");
+				for(int i=0;i<phoneData.size();i++) {
+					System.out.print(phoneData.get(i).getIdx()+"   ");
+					System.out.print(phoneData.get(i).getName()+"   ");
+					System.out.print(phoneData.get(i).getPhoneNumber()+"   ");
+					System.out.print(phoneData.get(i).getAddress()+"    ");
+					System.out.print(phoneData.get(i).getEmail()+"   ");
+					System.out.println(phoneData.get(i).getRegdate().substring(0,10));
+				}
+				System.out.println("======================================================================");
+
+				
+				System.out.println("수정 할 이름을 입력하세요.");
+				String nfr_name=Main.sc.nextLine();
+				System.out.println("수정 할 전화번호를 입력하세요.");
+				String nfr_phoneNumber=Main.sc.nextLine();
+				System.out.println("수정 할 이메일을 입력하세요.");
+				String nfr_email=Main.sc.nextLine();
+				System.out.println("수정 할 주소를 입력하세요.");
+				String nfr_address=Main.sc.nextLine();
+				
+				result=	dao.update(conn,searchName, nfr_name, nfr_phoneNumber, nfr_email, nfr_address);
+				if(result>0) {
+					System.out.println("■  "+result+"행이 수정되었습니다.  ■");
+					conn.commit();
+				}
+				return;
+				
+			}else {
+				System.out.println("존재하는 정보가 없습니다. 다시입력하세요.");
+			}
+			
+		
+			
+		} catch (SQLException e) {
+			if(conn!=null) {
+				try {
+					conn.rollback();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		} finally {
+			if(conn!=null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+
+		
+	}
 	
 	//기본 정보 삭제 -- 검색 결과, 동일 이름 삭제 여부 -> 수정 
 	public void pDelete() {

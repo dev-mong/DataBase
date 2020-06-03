@@ -170,6 +170,35 @@ public class PhoneInfoDao {
 		
 	}
 
+	
+	//기본 정보 수정
+	public int update(Connection conn, String searchName,
+			String nfr_name, String nfr_phoneNumber, String nfr_email,String nfr_address) {
+		
+		int result=0;
+		PreparedStatement pstmt=null;
+		
+		String sql="update phoneInfo_basic set fr_name=?, fr_phonenumber=?, fr_email=?, fr_address=? where fr_name=?";
+		
+		try {
+			pstmt=conn.prepareStatement(sql);
+			
+			pstmt.setString(1, nfr_name);
+			pstmt.setString(2, nfr_phoneNumber);
+			pstmt.setString(3, nfr_email);
+			pstmt.setString(4, nfr_address);
+			pstmt.setString(5, searchName);
+			
+			result=pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return result;
+	}
+	
 	//기본 정보 삭제
 	public int delete(String fr_name, Connection conn) {
 		
